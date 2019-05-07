@@ -134,8 +134,8 @@ void DrawFrame(double x, double y) {
     drawBox(x + 1 * BlockLength, y + 13 * BlockLength, BlockLength * 6, BlockLength * 3, 0, "Level", 'M', "Red");
     drawBox(x + 19 * BlockLength, y + 19 * BlockLength, BlockLength * 6, BlockLength * 3, 0, "Next One", 'M', "Red");
     setTextBoxColors("Blue", "Red", "Blue", "Red", 0);
-    char *ScoreText = malloc(sizeof(char));
-    char *LevelText = malloc(sizeof(char));
+    char *ScoreText = (char*)malloc(sizeof(char));
+    char *LevelText = (char*)malloc(sizeof(char));
     itoa(Score, ScoreText, 10);
     itoa(Level, LevelText, 10);
     textbox(GenUIID(0), x + 1 * BlockLength, y + 16 * BlockLength, BlockLength * 6, BlockLength * 3, ScoreText, 20);
