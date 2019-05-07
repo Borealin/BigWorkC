@@ -32,9 +32,11 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
         case KEY_DOWN:
             switch (key) {
                 case VK_DOWN:
-                    Sleep(200);
+                    cancelTimer(NORMAL_DOWN);
+                    Sleep(100);
                     current.y--;
                     RefreshDisplay();
+                    startTimer(NORMAL_DOWN,1000);
                     break;
                 case VK_RIGHT:
                     current.x++;
