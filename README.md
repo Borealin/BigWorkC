@@ -6,10 +6,6 @@
 
 - int
 
-## 等级
-
-- int
-
 ## 名称
 
 - 8位char数组
@@ -18,13 +14,15 @@
 
 - int 储存type
 
-## 链表记录已有行
+## 记录已有行
 
-- struct为大小12的int数组
+- 大小12*22的int数组
 
 ## 当前方块及其方向、位置
 
 - struct包括四个int x,y,direction,type
+  - x,y为整数
+  - direction 0，1，2，3依次为0°，90°，180°，270°
 
 ## 保存时需写入的数据
 
@@ -58,17 +56,25 @@
 
 - 1 □□□□
 
-- 2 □ </br>&nbsp;&nbsp; □□□
+- 2 □ <br>&nbsp;&nbsp; □□□
   
-- 3 &nbsp;&nbsp;&nbsp;&nbsp;□ </br>&nbsp;&nbsp;&nbsp;□□□
+- 3 &nbsp;&nbsp;&nbsp;&nbsp;□ <br>&nbsp;&nbsp;&nbsp;□□□
 
-- 4 □□</br>&nbsp;&nbsp;&nbsp;□□
+- 4 □□<br>&nbsp;&nbsp;&nbsp;□□
 
-- 5 &nbsp;&nbsp;&nbsp;□□</br>&nbsp;&nbsp;&nbsp;□□
+- 5 &nbsp;&nbsp;&nbsp;□□<br>&nbsp;&nbsp;&nbsp;□□
 
-- 6 &nbsp;&nbsp;□ </br>&nbsp;&nbsp;&nbsp;□□□
+- 6 &nbsp;&nbsp;□ <br>&nbsp;&nbsp;&nbsp;□□□
 
-- 7 □□</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;□□
+- 7 □□<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;□□
+
+## 方向数组
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（6）<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（5）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（7）<br>
+（2）（1）（0\4\8\12）（9）（10）<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（15）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（13）&nbsp;&nbsp;&nbsp;&nbsp;（11）<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（14）<br>
 
 ## 键盘回调函数
 

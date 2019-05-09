@@ -31,4 +31,6 @@ void DrawFrame(double x, double y);
 
 void DrawLayers(int head[12][22]);
 
+void DrawGameOver();
+
 #endif //BIGWORK_DRAWUTILS_H

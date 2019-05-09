@@ -10,8 +10,6 @@
 #include "graphics.h"
 #include "imgui.h"
 #include "extgraph.h"
-#include <windef.h>
-#include <wingdi.h>
 
 #define DEFAULT_COLOR "Black"
 #define FRAME_COLOR "Gray"
@@ -150,4 +148,9 @@ void DrawLayers(int head[12][22]) {
             }
         }
     }
+}
+
+void DrawGameOver(){
+    SetPenColor("Blue");
+    drawBox(FrameLeftCorner.x+10*BlockLength,FrameLeftCorner.y+9*BlockLength,4*BlockLength,4*BlockLength,0,"Game Over",'M',"Blue");
 }
