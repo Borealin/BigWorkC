@@ -9,7 +9,7 @@
 #define ACCELRATE_DOWN 2
 #define SPEEDUP 3
 
-int DownSpeed = 1000;
+double DownSpeed = 1000;
 Tetromino current = {12, 19, 0, 1};
 Tetromino next = {21,16,0,1};
 
@@ -29,7 +29,7 @@ void Main() {
     registerKeyboardEvent(KeyboardEventProcess);
     registerTimerEvent(TimerEventProcess);
     startTimer(NORMAL_DOWN, DownSpeed);
-    startTimer(SPEEDUP,60000)
+    startTimer(SPEEDUP,60000);
 }
 
 void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要执行*/
@@ -95,12 +95,23 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
 }
 
 void TimerEventProcess(int timerID) {
-    current.y--;
-    if(!JudgeBorder(current,3)){
-        current.y++;
-        RefreshCurrent();
+    switch(timerID){
+        case NORMAL_DOWN:
+            current.y--;
+            if(!JudgeBorder(current,3)){
+                current.y++;
+                RefreshCurrent();
+            }
+            RefreshDisplay();
+            break;
+        case SPEEDUP:
+            DownSpeed=DownSpeed*0.8;
+            cancelTimer(NORMAL_DOWN);
+            startTimer(NORMAL_DOWN,(int)DownSpeed);
+            break;
+        default:
+            break;
     }
-    RefreshDisplay();
 }
 
 void RefreshCurrent(){
