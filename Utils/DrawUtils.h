@@ -5,20 +5,30 @@
 #ifndef BIGWORK_DRAWUTILS_H
 #define BIGWORK_DRAWUTILS_H
 
+int Direction[16][2];
+int TetrominoShape[8][4];
+int TetrominoDirectionMod[8];
+
 typedef struct {
-    int x,y;
+    int x, y;
     int direction;
     int type;
-}Tetromino;
+} Tetromino;
+
+typedef struct {
+    int x, y;
+} Point;
 
 typedef struct {
     double x, y;
-} Point;
+} DoublePoint;
 
-double BlockLength;
+const double BlockLength;
 
 void DrawTetromino(Tetromino x);
 
 void DrawFrame(double x, double y);
+
+void DrawLayers(int head[12][22]);
 
 #endif //BIGWORK_DRAWUTILS_H
