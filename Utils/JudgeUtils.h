@@ -5,4 +5,16 @@
 #ifndef BIGWORKC_JUDGEUTILS_H
 #define BIGWORKC_JUDGEUTILS_H
 
+#include <DrawUtils.h>
+
+int TetrominoMap[12][22];
+
+const int X_CORNER;
+const int Y_CORNER;
+
+void UpdateLayers(Tetromino x);
+
+int JudgeBorder(Tetromino x,int FallDirection);
+
+void LayerInit();
 #endif //BIGWORKC_JUDGEUTILS_H
