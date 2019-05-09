@@ -24,7 +24,7 @@ void freeList(ListNodePtr head) {
     }
 }
 
-ListNodePtr InsertNode(ListNodePtr head, ListNodePtr node, int *val) {
+ListNodePtr InsertNode(ListNodePtr head, ListNodePtr node, int val) {
     ListNodePtr newNode = New(ListNodePtr);
     if (node == NULL) {//append to the tail
         node = head;
@@ -32,28 +32,25 @@ ListNodePtr InsertNode(ListNodePtr head, ListNodePtr node, int *val) {
             node = node->next;
         }
     }
-    newNode->sto = val;
+    newNode->score = val;
     newNode->next = node->next;
     node->next = newNode;
     return head;
 }
 
 ListNodePtr DeleteNode(ListNodePtr head) {
-    ListNodePtr current, previous;
-    previous = New(ListNodePtr);
-    current = head;
-    head = previous;
-    while (current != NULL) {
-        int tmp = 0;
-        for (int i = 0; i < 10; ++i) {
-            tmp = tmp | current->sto[i];
-        }
-        if (!tmp) {
-            current = current->next;
-            previous->next = current;
-        }
-        previous = current;
-        current = current->next;
-    }
-    return head->next;
+//    ListNodePtr current, previous;
+//    previous = New(ListNodePtr);
+//    current = head;
+//    head = previous;
+//    while (current != NULL) {
+//
+//        if (tmp) {
+//            current = current->next;
+//            previous->next = current;
+//        }
+//        previous = current;
+//        current = current->next;
+//    }
+//    return head->next;
 }
