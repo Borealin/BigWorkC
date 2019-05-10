@@ -14,6 +14,11 @@ int TetrominoMap[12][22];
 void ClearFullLayer();
 
 void LayerInit() {
+    for(int i=0;i<12;i++){
+        for (int j = 0; j < 22; ++j) {
+            TetrominoMap[i][j]=0;
+        }
+    }
     for (int i = 0; i < 12; i++) {
         TetrominoMap[i][0] = 1;
         TetrominoMap[i][21] = 1;
@@ -66,4 +71,14 @@ void ClearFullLayer() {
             j--;
         }
     }
+}
+
+int JudgeGameOver(Tetromino x){
+    int dir = x.direction % TetrominoDirectionMod[x.type];
+    for (int i = 0; i < 4; ++i) {
+        if(x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER + 1>=20){
+            return 1;
+        }
+    }
+    return 0;
 }

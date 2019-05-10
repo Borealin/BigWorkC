@@ -13,8 +13,10 @@ const int X_CORNER;
 const int Y_CORNER;
 
 
-int JudgeBorder(Tetromino x,int FallDirection);
+int JudgeBorder(Tetromino x, int FallDirection);
 
 void LayerInit();
+
+int JudgeGameOver(Tetromino x);
 
 #endif //BIGWORKC_JUDGEUTILS_H

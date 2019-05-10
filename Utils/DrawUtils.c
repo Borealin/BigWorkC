@@ -10,6 +10,7 @@
 #include "graphics.h"
 #include "imgui.h"
 #include "extgraph.h"
+#include <GameUtils.h>
 
 #define DEFAULT_COLOR "Black"
 #define FRAME_COLOR "Gray"
@@ -152,5 +153,9 @@ void DrawLayers(int head[12][22]) {
 
 void DrawGameOver(){
     SetPenColor("Blue");
-    drawBox(FrameLeftCorner.x+10*BlockLength,FrameLeftCorner.y+9*BlockLength,4*BlockLength,4*BlockLength,0,"Game Over",'M',"Blue");
+    drawBox(FrameLeftCorner.x+11*BlockLength,FrameLeftCorner.y+10*BlockLength,4*BlockLength,4*BlockLength,1,"Game Over",'M',"Red");
+    SetPenColor("Blue");
+    if(button(GenUIID(10),FrameLeftCorner.x+11*BlockLength,FrameLeftCorner.y+8*BlockLength,4*BlockLength,2*BlockLength,"Click to Retry")){
+        NewRound();
+    }
 }
