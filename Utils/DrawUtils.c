@@ -38,9 +38,6 @@ int Direction[16][2] = {
         {-1, -1}
 };
 
-int Score;
-
-int Level;
 
 char *TetrominoColor[8] = {
         "White",

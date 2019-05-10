@@ -11,10 +11,19 @@
 #include <GameUtils.h>
 
 int accel = 0;
+
 int stop = 0;
+
 double DownSpeed = 1000;
+
 Tetromino current = {12, 20, 0, 1};
 Tetromino next = {21, 16, 0, 1};
+
+int Score;
+int ScoreAdd[5] = {
+        10, 100, 200, 400, 800
+};
+int Level;
 
 void RefreshCurrent();
 
@@ -105,7 +114,7 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
 
 void MouseEventProcess(int x, int y, int button, int event) {
     uiGetMouse(x, y, button, event);
-    if(stop){
+    if (stop) {
         RefreshDisplay();
         DrawGameOver();
     }
@@ -154,13 +163,16 @@ void RefreshDisplay() {
 }
 
 void NewRound() {
-    stop=0;
+    stop = 0;
     DisplayClear();
     LayerInit();
     DrawLayers(TetrominoMap);
-    RefreshCurrent();
+    Score = 0;
+    Level = 0;
+    current.type = RandomInteger(1, 7);
+    next.type = RandomInteger(1, 7);
     DrawTetromino(current);
     DrawTetromino(next);
-    DrawFrame(0,0);
+    DrawFrame(0, 0);
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }

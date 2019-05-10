@@ -12,10 +12,8 @@ void Main() {
     InitGraphics();
     InitGUI();
     Randomize();
-    current.type = RandomInteger(1, 7);
-    next.type = RandomInteger(1, 7);
     registerKeyboardEvent(KeyboardEventProcess);
     registerMouseEvent(MouseEventProcess);
     registerTimerEvent(TimerEventProcess);
-    startTimer(NORMAL_DOWN, (int) DownSpeed);
+    NewRound();
 }

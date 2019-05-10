@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <DrawUtils.h>
 #include <ListUtils.h>
+#include <GameUtils.h>
 
 const int X_CORNER = 7;
 const int Y_CORNER = 1;
@@ -54,6 +55,7 @@ int JudgeBorder(Tetromino x, int FallDirection) {//0:left or right been blocked 
 }
 
 void ClearFullLayer() {
+    int count = 0;
     for (int j = 1; j < 21; ++j) {
         int clear = 1;
         for (int i = 1; i < 11; ++i) {
@@ -63,6 +65,7 @@ void ClearFullLayer() {
             }
         }
         if (clear) {
+            count++;
             for (int k = j + 1; k < 21; ++k) {
                 for (int i = 1; i < 11; ++i) {
                     TetrominoMap[i][k - 1] = TetrominoMap[i][k];
@@ -71,6 +74,7 @@ void ClearFullLayer() {
             j--;
         }
     }
+    Score+=ScoreAdd[count];
 }
 
 int JudgeGameOver(Tetromino x){

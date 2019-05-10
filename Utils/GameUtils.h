@@ -13,6 +13,9 @@
 double DownSpeed;
 Tetromino current;
 Tetromino next;
+int Score;
+int ScoreAdd[5];
+int Level;
 
 void KeyboardEventProcess(int key, int event);/*键盘消息回调函数*/
 

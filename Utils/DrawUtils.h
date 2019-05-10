@@ -16,10 +16,6 @@ typedef struct {
 } Tetromino;
 
 typedef struct {
-    int x, y;
-} Point;
-
-typedef struct {
     double x, y;
 } DoublePoint;
 
