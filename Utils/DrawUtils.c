@@ -101,16 +101,14 @@ void DrawFrame(double x, double y) {
     for (int i = 0; i < sizeof(column) / sizeof(column[0]); i++) {
         DrawBlocks(column[i], 2, 1, 20, FRAME_COLOR, DEFAULT_COLOR);
     }
-
-    DrawBlocks(19, 2, 6, 11, FRAME_COLOR, DEFAULT_COLOR);
-
-    DrawBlocks(19, 2, 6, 11, FRAME_COLOR, DEFAULT_COLOR);
+    DrawBlocks(19, 2, 6, 4, FRAME_COLOR, DEFAULT_COLOR);
     DrawBlocks(0, 22, 26, 2, FRAME_COLOR, DEFAULT_COLOR);
     SetPenColor("Red");
     drawBox(x + 1 * BlockLength, y + 20 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Score", 'M', "Red");
     drawBox(x + 1 * BlockLength, y + 16 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Level", 'M', "Red");
     drawBox(x + 1 * BlockLength, y + 12 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Rank List", 'M', "Red");
     drawBox(x + 19 * BlockLength, y + 20 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Next One", 'M', "Red");
+    drawBox(x + 19 * BlockLength, y + 12 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Hold", 'M', "Red");
     char *ScoreText = (char *) malloc(sizeof(char));
     char *LevelText = (char *) malloc(sizeof(char));
     itoa(Score, ScoreText, 10);

@@ -21,6 +21,7 @@ double DownSpeed = 600;
 
 Tetromino current = {12, 20, 0, 1};
 Tetromino next = {21, 16, 0, 1};
+Tetromino hold = {21, 9, 0, 0};
 
 char Name[NAMELENGTH];
 
@@ -38,9 +39,14 @@ void DisplayClear(void);
 
 void DrawResult();
 
+void SwitchHold();
+int HaveSwitch = 0;
+
+void GameOver();
+
 void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要执行*/
 {
-    uiGetKeyboard(key,event);
+    uiGetKeyboard(key, event);
     switch (event) {
         case KEY_DOWN:
             if (!stop) {
@@ -52,12 +58,7 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
                         current.y++;
                         RefreshDisplay();
                         if (JudgeGameOver(current)) {
-                            cancelTimer(NORMAL_DOWN);
-                            cancelTimer(ACCELRATE_DOWN);
-                            cancelTimer(SPEEDUP);
-                            stop = 1;
-                            RefreshDisplay();
-                            DrawGameOver();
+                            GameOver();
                             return;
                         }
                         RefreshCurrent();
@@ -130,6 +131,10 @@ void MouseEventProcess(int x, int y, int button, int event) {
 
 void TimerEventProcess(int timerID) {
     switch (timerID) {
+        case STOPREFRESH:
+            RefreshDisplay();
+            DrawGameOver();
+            break;
         case SPEEDUP:
 //            DownSpeed=DownSpeed*0.8;
 //            cancelTimer(NORMAL_DOWN);
@@ -139,13 +144,9 @@ void TimerEventProcess(int timerID) {
             current.y--;
             if (!JudgeBorder(current, 3)) {
                 current.y++;
+                RefreshDisplay();
                 if (JudgeGameOver(current)) {
-                    cancelTimer(NORMAL_DOWN);
-                    cancelTimer(ACCELRATE_DOWN);
-                    cancelTimer(SPEEDUP);
-                    stop = 1;
-                    RefreshDisplay();
-                    DrawGameOver();
+                    GameOver();
                     return;
                 }
                 RefreshCurrent();
@@ -161,6 +162,16 @@ void CharEventProcess(char ch) {
         RefreshDisplay();
         DrawGameOver();
     }
+    else{
+        switch (ch){
+            case 'x':
+                SwitchHold();
+                RefreshDisplay();
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void RefreshCurrent() {
@@ -169,6 +180,7 @@ void RefreshCurrent() {
     current.direction = 0;
     current.type = next.type;
     next.type = RandomInteger(1, 7);
+    HaveSwitch = 0;
 }
 
 void RefreshDisplay() {
@@ -179,16 +191,16 @@ void RefreshDisplay() {
         DrawResult();
     }
     DrawTetromino(next);
+    DrawTetromino(hold);
     DrawFrame(0, 0);
 }
 
 void NewRound() {
+    cancelTimer(STOPREFRESH);
     stop = 0;
-    DisplayClear();
     LayerInit();
-    DrawLayers(TetrominoMap);
-    for(int i=0;i< sizeof(Name);i++){
-        Name[i]=0;
+    for (int i = 0; i < sizeof(Name); i++) {
+        Name[i] = 0;
     }
     Score = 0;
     Level = 0;
@@ -196,9 +208,8 @@ void NewRound() {
     current.y = 20;
     current.type = RandomInteger(1, 7);
     next.type = RandomInteger(1, 7);
-    DrawTetromino(current);
-    DrawTetromino(next);
-    DrawFrame(0, 0);
+    hold.type=0;
+    RefreshDisplay();
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
 
@@ -212,9 +223,39 @@ void DrawResult() {
 }
 
 void UpdateRank() {
-    if(RankList==NULL){
-        RankList=CreateList();
+    if (RankList == NULL) {
+        RankList = CreateList();
     }
-    InsertNode(RankList,Score,Name);
+    InsertNode(RankList, Score, Name);
     DeleteNode(RankList);
+}
+
+void SwitchHold(){
+    if(!hold.type){
+        hold.type = current.type;
+        RefreshCurrent();
+    }
+    else{
+        if(!HaveSwitch) {
+            int tmp = current.type;
+            current.type = hold.type;
+            if(!JudgeBorder(current,1)){
+                current.type = tmp;
+            }
+            else{
+                hold.type = tmp;
+                HaveSwitch = 1;
+            }
+        }
+    }
+}
+
+void GameOver(){
+    cancelTimer(NORMAL_DOWN);
+    cancelTimer(ACCELRATE_DOWN);
+    cancelTimer(SPEEDUP);
+    stop = 1;
+    RefreshDisplay();
+    DrawGameOver();
+    startTimer(STOPREFRESH,100);
 }

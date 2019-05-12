@@ -15,9 +15,9 @@ int TetrominoMap[12][22];
 void ClearFullLayer();
 
 void LayerInit() {
-    for(int i=0;i<12;i++){
+    for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 22; ++j) {
-            TetrominoMap[i][j]=0;
+            TetrominoMap[i][j] = 0;
         }
     }
     for (int i = 0; i < 12; i++) {
@@ -44,7 +44,7 @@ int JudgeBorder(Tetromino x, int FallDirection) {//0:nothing been blocked 1:down
     for (int i = 0; i < 4; ++i) {
         int tx = x.x + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][0] - X_CORNER;
         int ty = x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER;
-        if(tx<=0||tx>=11){
+        if (tx <= 0 || tx >= 11) {
             return 0;
         }
         if (TetrominoMap[tx][ty]) {
@@ -77,14 +77,13 @@ void ClearFullLayer() {
             j--;
         }
     }
-    Score+=ScoreAdd[count];
+    Score += ScoreAdd[count];
 }
 
-int JudgeGameOver(Tetromino x){
+int JudgeGameOver(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; ++i) {
-        if(x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER + 1>=20){
-
+        if (x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER + 1 >= 20) {
             return 1;
         }
     }

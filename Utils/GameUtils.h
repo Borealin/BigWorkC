@@ -11,10 +11,15 @@
 #define NORMAL_DOWN 1
 #define ACCELRATE_DOWN 2
 #define SPEEDUP 3
+#define STOPREFRESH 4
+
 
 double DownSpeed;
+
 Tetromino current;
 Tetromino next;
+Tetromino hold;
+
 ListNodePtr RankList;
 char Name[NAMELENGTH];
 int Score;
