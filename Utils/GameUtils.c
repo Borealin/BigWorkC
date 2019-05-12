@@ -9,15 +9,20 @@
 #include <random.h>
 #include <JudgeUtils.h>
 #include <GameUtils.h>
+#include <ListUtils.h>
+
+ListNodePtr RankList;
 
 int accel = 0;
 
 int stop = 0;
 
-double DownSpeed = 1000;
+double DownSpeed = 600;
 
 Tetromino current = {12, 20, 0, 1};
 Tetromino next = {21, 16, 0, 1};
+
+char Name[NAMELENGTH];
 
 int Score;
 int ScoreAdd[5] = {
@@ -31,9 +36,11 @@ void RefreshDisplay();
 
 void DisplayClear(void);
 
+void DrawResult();
 
 void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要执行*/
 {
+    uiGetKeyboard(key,event);
     switch (event) {
         case KEY_DOWN:
             if (!stop) {
@@ -49,6 +56,7 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
                             cancelTimer(ACCELRATE_DOWN);
                             cancelTimer(SPEEDUP);
                             stop = 1;
+                            RefreshDisplay();
                             DrawGameOver();
                             return;
                         }
@@ -80,7 +88,7 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
                     case VK_UP:
                         current.direction = (current.direction + 1) % 4;
                         if (!JudgeBorder(current, 1)) {
-                            current.direction = (current.direction - 1) % 4;
+                            current.direction = ((current.direction - 1) % 4 + 4) % 4;
                         }
                         RefreshDisplay();
                         break;
@@ -136,6 +144,7 @@ void TimerEventProcess(int timerID) {
                     cancelTimer(ACCELRATE_DOWN);
                     cancelTimer(SPEEDUP);
                     stop = 1;
+                    RefreshDisplay();
                     DrawGameOver();
                     return;
                 }
@@ -143,6 +152,14 @@ void TimerEventProcess(int timerID) {
             }
             RefreshDisplay();
             break;
+    }
+}
+
+void CharEventProcess(char ch) {
+    uiGetChar(ch); // GUI字符输入
+    if (stop) {
+        RefreshDisplay();
+        DrawGameOver();
     }
 }
 
@@ -158,6 +175,9 @@ void RefreshDisplay() {
     DisplayClear();
     DrawLayers(TetrominoMap);
     DrawTetromino(current);
+    if (!stop) {
+        DrawResult();
+    }
     DrawTetromino(next);
     DrawFrame(0, 0);
 }
@@ -167,12 +187,34 @@ void NewRound() {
     DisplayClear();
     LayerInit();
     DrawLayers(TetrominoMap);
+    for(int i=0;i< sizeof(Name);i++){
+        Name[i]=0;
+    }
     Score = 0;
     Level = 0;
+    current.x = 12;
+    current.y = 20;
     current.type = RandomInteger(1, 7);
     next.type = RandomInteger(1, 7);
     DrawTetromino(current);
     DrawTetromino(next);
     DrawFrame(0, 0);
     startTimer(NORMAL_DOWN, (int) DownSpeed);
+}
+
+void DrawResult() {
+    Tetromino tmp = current;
+    while (JudgeBorder(tmp, 1)) {
+        tmp.y--;
+    }
+    tmp.y++;
+    DrawTetrominoOutline(tmp);
+}
+
+void UpdateRank() {
+    if(RankList==NULL){
+        RankList=CreateList();
+    }
+    InsertNode(RankList,Score,Name);
+    DeleteNode(RankList);
 }

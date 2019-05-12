@@ -39,11 +39,14 @@ void UpdateLayers(Tetromino x) {
     ClearFullLayer();
 }
 
-int JudgeBorder(Tetromino x, int FallDirection) {//0:left or right been blocked 1:down been blocked 2:nothing been blocked
+int JudgeBorder(Tetromino x, int FallDirection) {//0:nothing been blocked 1:down been blocked
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; ++i) {
         int tx = x.x + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][0] - X_CORNER;
         int ty = x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER;
+        if(tx<=0||tx>=11){
+            return 0;
+        }
         if (TetrominoMap[tx][ty]) {
             if (FallDirection == 3) {
                 UpdateLayers(x);
@@ -81,6 +84,7 @@ int JudgeGameOver(Tetromino x){
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; ++i) {
         if(x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER + 1>=20){
+
             return 1;
         }
     }

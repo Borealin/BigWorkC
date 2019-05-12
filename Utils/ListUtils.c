@@ -5,10 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <genlib.h>
+#include <mem.h>
 
 #define New(type) ((type) GetBlock(sizeof *((type) NULL)))
 
-ListNodePtr createList(void) {
+ListNodePtr CreateList(void) {
     ListNodePtr head = New(ListNodePtr);
     head->next = NULL;
     return head;
@@ -24,33 +25,30 @@ void freeList(ListNodePtr head) {
     }
 }
 
-ListNodePtr InsertNode(ListNodePtr head, ListNodePtr node, int val) {
-    ListNodePtr newNode = New(ListNodePtr);
-    if (node == NULL) {//append to the tail
-        node = head;
-        while (node->next != NULL) {
-            node = node->next;
-        }
+ListNodePtr InsertNode(ListNodePtr head,int val,char* name) {
+    ListNodePtr current,previous;
+    current=head->next;
+    previous = head;
+    while(current!=NULL&&current->score>=val){
+        previous=current;
+        current=current->next;
     }
-    newNode->score = val;
-    newNode->next = node->next;
-    node->next = newNode;
+    ListNodePtr NewNode=New(ListNodePtr);
+    NewNode->score=val;
+    strncpy(NewNode->name,name, sizeof(NewNode->name));
+    previous->next=NewNode;
+    NewNode->next=current;
     return head;
 }
 
 ListNodePtr DeleteNode(ListNodePtr head) {
-//    ListNodePtr current, previous;
-//    previous = New(ListNodePtr);
-//    current = head;
-//    head = previous;
-//    while (current != NULL) {
-//
-//        if (tmp) {
-//            current = current->next;
-//            previous->next = current;
-//        }
-//        previous = current;
-//        current = current->next;
-//    }
-//    return head->next;
+    ListNodePtr current;
+    current = head;
+    int count=0;
+    while (current->next != NULL&&count<10) {
+        current = current->next;
+        count++;
+    }
+   current->next=NULL;
+    return head;
 }

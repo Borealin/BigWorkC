@@ -23,6 +23,8 @@ const double BlockLength;
 
 void DrawTetromino(Tetromino x);
 
+void DrawTetrominoOutline(Tetromino x);
+
 void DrawFrame(double x, double y);
 
 void DrawLayers(int head[12][22]);

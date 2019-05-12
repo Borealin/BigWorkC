@@ -10,10 +10,11 @@
 void Main() {
     SetWindowSize(BlockLength * 26, BlockLength * 24);
     InitGraphics();
-    InitGUI();
+    InitGUI() ;
     Randomize();
     registerKeyboardEvent(KeyboardEventProcess);
     registerMouseEvent(MouseEventProcess);
     registerTimerEvent(TimerEventProcess);
+    registerCharEvent(CharEventProcess);
     NewRound();
 }
