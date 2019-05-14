@@ -10,8 +10,6 @@ const int X_CORNER = 7;
 const int Y_CORNER = 1;
 
 
-int TetrominoMap[12][22];
-
 void ClearFullLayer();
 
 void LayerInit() {

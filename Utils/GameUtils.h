@@ -16,6 +16,7 @@
 
 double DownSpeed;
 
+int TetrominoMap[12][22];
 Tetromino current;
 Tetromino next;
 Tetromino hold;

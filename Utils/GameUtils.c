@@ -10,6 +10,7 @@
 #include <JudgeUtils.h>
 #include <GameUtils.h>
 #include <ListUtils.h>
+#include "SaveUtils.h"
 
 ListNodePtr RankList;
 
@@ -21,11 +22,10 @@ int IsPause = 0;
 
 void GamePause();
 
-void GameResume();
-
 
 double DownSpeed = 600;
 
+int TetrominoMap[12][22];
 Tetromino current = {12, 20, 0, 1};
 Tetromino next = {21, 16, 0, 1};
 Tetromino hold = {21, 9, 0, 0};
@@ -286,5 +286,6 @@ void GameResume() {
 }
 
 void GameExit() {
+    SaveGame();
     ExitGraphics();
 }

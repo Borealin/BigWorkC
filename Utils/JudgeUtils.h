@@ -7,8 +7,6 @@
 
 #include <DrawUtils.h>
 
-int TetrominoMap[12][22];
-
 const int X_CORNER;
 const int Y_CORNER;
 

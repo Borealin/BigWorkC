@@ -71,6 +71,8 @@ void DrawOutline(int x, int y, int r, int c, char *Color);
 
 void DrawRankList();
 
+void SetDefaultStyle();
+
 void DrawTetromino(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; i++) {
@@ -179,12 +181,11 @@ void DrawGameOver() {
     SetPenColor("Magenta");
     drawBox(FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
             1 * BlockLength, 1, "Please Input Your Name", 'M', "Black");
-    setTextBoxColors("Magenta", "Black", "Dark Gray", "Gray", 1);
-    textbox(GenUIID(0), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
+    SetDefaultStyle();
+    textbox(0, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
             1 * BlockLength, Name,
             sizeof(Name));
-    setButtonColors("Magenta", "Black", "Dark Gray", "Gray", 1);
-    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
+    if (button(1, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
                1 * BlockLength, "Click to Retry")) {
         UpdateRank();
         NewRound();
@@ -213,13 +214,19 @@ void DrawRankList() {
     }
 }
 
-void DrawGamePause(){
-    if (button(GenUIID(2), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
+void DrawGamePause() {
+    SetDefaultStyle();
+    if (button(2, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Resume")) {
         GameResume();
     }
-    if (button(GenUIID(3), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
+    if (button(3, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Exit")) {
         GameExit();
     }
+}
+
+void SetDefaultStyle() {
+    setTextBoxColors("Magenta", "Black", "Dark Gray", "Gray", 1);
+    setButtonColors("Magenta", "Black", "Dark Gray", "Gray", 1);
 }
