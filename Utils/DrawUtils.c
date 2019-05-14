@@ -179,34 +179,47 @@ void DrawGameOver() {
     SetPenColor("Magenta");
     drawBox(FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
             1 * BlockLength, 1, "Please Input Your Name", 'M', "Black");
-    setTextBoxColors("Magenta","Black","Dark Gray","Gray",1);
+    setTextBoxColors("Magenta", "Black", "Dark Gray", "Gray", 1);
     textbox(GenUIID(0), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
             1 * BlockLength, Name,
             sizeof(Name));
-    setButtonColors("Magenta","Black","Dark Gray","Gray",1);
-    if (button(GenUIID(0), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
-               1 * BlockLength, "Click to Retry")){
+    setButtonColors("Magenta", "Black", "Dark Gray", "Gray", 1);
+    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
+               1 * BlockLength, "Click to Retry")) {
         UpdateRank();
         NewRound();
     }
 }
 
-void DrawRankList(){
+void DrawRankList() {
     char RankScoreText[10];
-    if(RankList==NULL){
-        RankList=CreateList();
+    if (RankList == NULL) {
+        RankList = CreateList();
     }
-    ListNodePtr current = RankList->next;
-    int i=0;
-    while (current!=NULL){
+    ListNodePtr currentNode = RankList->next;
+    int i = 0;
+    while (currentNode != NULL) {
         i++;
-        for (int j = 0; j < sizeof(RankScoreText);++j) {
-            RankScoreText[j]=0;
+        for (int j = 0; j < sizeof(RankScoreText); ++j) {
+            RankScoreText[j] = 0;
         }
-        itoa(current->score,RankScoreText,10);
+        itoa(currentNode->score, RankScoreText, 10);
         SetPenColor("Orange");
-        drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + (12-i) * BlockLength, BlockLength * 3, BlockLength * 1, 0, current->name, 'L', "Magenta");
-        drawBox(FrameLeftCorner.x + 4 * BlockLength, FrameLeftCorner.y + (12-i) * BlockLength, BlockLength * 3, BlockLength * 1, 0, RankScoreText, 'R', "Magenta");
-        current=current->next;
+        drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + (12 - i) * BlockLength, BlockLength * 3,
+                BlockLength * 1, 0, currentNode->name, 'L', "Magenta");
+        drawBox(FrameLeftCorner.x + 4 * BlockLength, FrameLeftCorner.y + (12 - i) * BlockLength, BlockLength * 3,
+                BlockLength * 1, 0, RankScoreText, 'R', "Magenta");
+        currentNode = currentNode->next;
+    }
+}
+
+void DrawGamePause(){
+    if (button(GenUIID(2), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
+               2 * BlockLength, "Resume")) {
+        GameResume();
+    }
+    if (button(GenUIID(3), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
+               2 * BlockLength, "Exit")) {
+        GameExit();
     }
 }

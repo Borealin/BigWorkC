@@ -38,4 +38,8 @@ void NewRound();
 
 void UpdateRank();
 
+void GameResume();
+
+void GameExit();
+
 #endif //BIGWORKC_GAMEUTILS_H

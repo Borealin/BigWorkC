@@ -31,4 +31,6 @@ void DrawLayers(int head[12][22]);
 
 void DrawGameOver();
 
+void DrawGamePause();
+
 #endif //BIGWORK_DRAWUTILS_H

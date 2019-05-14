@@ -13,9 +13,16 @@
 
 ListNodePtr RankList;
 
-int accel = 0;
+int IsAccelerate = 0;
 
-int stop = 0;
+int IsStop = 0;
+
+int IsPause = 0;
+
+void GamePause();
+
+void GameResume();
+
 
 double DownSpeed = 600;
 
@@ -40,6 +47,7 @@ void DisplayClear(void);
 void DrawResult();
 
 void SwitchHold();
+
 int HaveSwitch = 0;
 
 void GameOver();
@@ -49,7 +57,7 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
     uiGetKeyboard(key, event);
     switch (event) {
         case KEY_DOWN:
-            if (!stop) {
+            if (!IsStop||!IsPause) {
                 switch (key) {
                     case VK_SPACE:
                         while (JudgeBorder(current, 3)) {
@@ -65,8 +73,8 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
                         RefreshDisplay();
                         break;
                     case VK_DOWN:
-                        if (!accel) {
-                            accel = 1;
+                        if (!IsAccelerate) {
+                            IsAccelerate = 1;
                             cancelTimer(NORMAL_DOWN);
                             startTimer(ACCELRATE_DOWN, 60);
                             RefreshDisplay();
@@ -94,6 +102,7 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
                         RefreshDisplay();
                         break;
                     case VK_ESCAPE:
+                        IsPause?GameResume():GamePause();
                         break;
                     default:
                         break;
@@ -101,11 +110,11 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
             }
             break;
         case KEY_UP:
-            if (!stop) {
+            if (!IsStop||!IsPause) {
                 switch (key) {
                     case VK_DOWN:
-                        if (accel) {
-                            accel = 0;
+                        if (IsAccelerate) {
+                            IsAccelerate = 0;
                             cancelTimer(ACCELRATE_DOWN);
                             startTimer(NORMAL_DOWN, (int) DownSpeed);
                         }
@@ -123,9 +132,13 @@ void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要
 
 void MouseEventProcess(int x, int y, int button, int event) {
     uiGetMouse(x, y, button, event);
-    if (stop) {
+    if (IsStop) {
         RefreshDisplay();
         DrawGameOver();
+    }
+    if (IsPause) {
+        RefreshDisplay();
+        DrawGamePause();
     }
 }
 
@@ -158,12 +171,11 @@ void TimerEventProcess(int timerID) {
 
 void CharEventProcess(char ch) {
     uiGetChar(ch); // GUI字符输入
-    if (stop) {
+    if (IsStop) {
         RefreshDisplay();
         DrawGameOver();
-    }
-    else{
-        switch (ch){
+    } else {
+        switch (ch) {
             case 'x':
                 SwitchHold();
                 RefreshDisplay();
@@ -187,7 +199,7 @@ void RefreshDisplay() {
     DisplayClear();
     DrawLayers(TetrominoMap);
     DrawTetromino(current);
-    if (!stop) {
+    if (!IsStop) {
         DrawResult();
     }
     DrawTetromino(next);
@@ -197,7 +209,7 @@ void RefreshDisplay() {
 
 void NewRound() {
     cancelTimer(STOPREFRESH);
-    stop = 0;
+    IsStop = 0;
     LayerInit();
     for (int i = 0; i < sizeof(Name); i++) {
         Name[i] = 0;
@@ -208,7 +220,7 @@ void NewRound() {
     current.y = 20;
     current.type = RandomInteger(1, 7);
     next.type = RandomInteger(1, 7);
-    hold.type=0;
+    hold.type = 0;
     RefreshDisplay();
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
@@ -230,19 +242,17 @@ void UpdateRank() {
     DeleteNode(RankList);
 }
 
-void SwitchHold(){
-    if(!hold.type){
+void SwitchHold() {
+    if (!hold.type) {
         hold.type = current.type;
         RefreshCurrent();
-    }
-    else{
-        if(!HaveSwitch) {
+    } else {
+        if (!HaveSwitch) {
             int tmp = current.type;
             current.type = hold.type;
-            if(!JudgeBorder(current,1)){
+            if (!JudgeBorder(current, 1)) {
                 current.type = tmp;
-            }
-            else{
+            } else {
                 hold.type = tmp;
                 HaveSwitch = 1;
             }
@@ -250,12 +260,31 @@ void SwitchHold(){
     }
 }
 
-void GameOver(){
+void GameOver() {
     cancelTimer(NORMAL_DOWN);
     cancelTimer(ACCELRATE_DOWN);
     cancelTimer(SPEEDUP);
-    stop = 1;
+    IsStop = 1;
     RefreshDisplay();
     DrawGameOver();
-    startTimer(STOPREFRESH,100);
+    startTimer(STOPREFRESH, 100);
+}
+
+void GamePause() {
+    cancelTimer(NORMAL_DOWN);
+    cancelTimer(ACCELRATE_DOWN);
+    cancelTimer(SPEEDUP);
+    IsPause = 1;
+    RefreshDisplay();
+    DrawGamePause();
+}
+
+void GameResume() {
+    startTimer(NORMAL_DOWN, (int) DownSpeed);
+    IsPause = 0;
+    RefreshDisplay();
+}
+
+void GameExit() {
+    ExitGraphics();
 }
