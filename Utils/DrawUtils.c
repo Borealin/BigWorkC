@@ -182,10 +182,10 @@ void DrawGameOver() {
     drawBox(FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
             1 * BlockLength, 1, "Please Input Your Name", 'M', "Black");
     SetDefaultStyle();
-    textbox(0, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
+    textbox(GenUIID(0), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
             1 * BlockLength, Name,
             sizeof(Name));
-    if (button(1, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
+    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
                1 * BlockLength, "Click to Retry")) {
         UpdateRank();
         NewRound();
@@ -216,11 +216,11 @@ void DrawRankList() {
 
 void DrawGamePause() {
     SetDefaultStyle();
-    if (button(2, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
+    if (button(GenUIID(2), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Resume")) {
         GameResume();
     }
-    if (button(3, FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
+    if (button(GenUIID(3), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Exit")) {
         GameExit();
     }
