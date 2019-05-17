@@ -40,7 +40,7 @@ int Direction[16][2] = {
 
 
 char *TetrominoColor[8] = {
-        "White",
+        "White",//tests
         "Cyan",
         "Blue",
         "Orange",
@@ -62,7 +62,7 @@ int TetrominoShape[8][4] = {
 };
 
 int TetrominoDirectionMod[8] = {
-        1, 2, 4, 4, 1, 2, 4, 2
+        1, 2, 4, 4, 1, 4, 4, 4
 };
 
 void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor);
