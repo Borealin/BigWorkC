@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="simpleGUI">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="libgraphics">
+      <UniqueIdentifier>{bcd5b557-413e-4109-9467-7a98826f7ee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5f063aec-0d65-440e-bf17-4437359eef2e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\exception.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\extgraph.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gcalloc.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\genlib.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\graphics.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\random.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\simpio.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\strlib.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\simpleGUI\imgui.h">
+      <Filter>simpleGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\exception.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\extgraph.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\gcalloc.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\genlib.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\graphics.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\random.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\simpio.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libgraphics\strlib.h">
+      <Filter>libgraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utils\DrawUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utils\GameUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utils\JudgeUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utils\ListUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utils\SaveUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\main.c">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\simpleGUI\imgui.c">
+      <Filter>simpleGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libgraphics\exceptio.c">
+      <Filter>libgraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libgraphics\genlib.c">
+      <Filter>libgraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libgraphics\graphics.c">
+      <Filter>libgraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libgraphics\random.c">
+      <Filter>libgraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libgraphics\simpio.c">
+      <Filter>libgraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libgraphics\strlib.c">
+      <Filter>libgraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utils\DrawUtils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utils\GameUtils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utils\JudgeUtils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utils\ListUtils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utils\SaveUtils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
