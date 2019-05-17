@@ -77,7 +77,8 @@ void ClearFullLayer() {
     }
     Score += ScoreAdd[count];
 }
-
+/*
+ * 函数名：JudgeGame*/
 int JudgeGameOver(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; ++i) {
