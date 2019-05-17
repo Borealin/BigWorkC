@@ -6,7 +6,7 @@
  * This file implements the C exception handler.  Much of the
  * real work is done in the exception.h header file.
  */
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdarg.h>
 

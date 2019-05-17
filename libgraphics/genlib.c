@@ -6,7 +6,7 @@
  * This file implements the general C library package.  See the
  * interface description in genlib.h for details.
  */
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>

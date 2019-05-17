@@ -1,6 +1,8 @@
 //
 // Created by Borealin on 2019/5/7.
 //
+#define _CRT_NONSTDC_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -40,7 +42,7 @@ int Direction[16][2] = {
 
 
 char *TetrominoColor[8] = {
-        "White",//tests
+        "White",
         "Cyan",
         "Blue",
         "Orange",

@@ -1,6 +1,7 @@
-#include <graphics.h>
-#include <imgui.h>
-#include <DrawUtils.h>
+#define _CRT_SECURE_NO_WARNINGS
+#include "graphics.h"
+#include "imgui.h"
+#include "DrawUtils.h"
 #include <extgraph.h>
 #include <windows.h>
 #include <random.h>

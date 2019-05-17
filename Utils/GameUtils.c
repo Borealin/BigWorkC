@@ -52,7 +52,7 @@ int HaveSwitch = 0;
 
 void GameOver();
 
-void KeyboardEventProcess(int key, int event)/*Ã¿µ±²úÉú¼üÅÌÏûÏ¢£¬¶¼ÒªÖ´ĞĞ*/
+void KeyboardEventProcess(int key, int event)/*æ¯å½“äº§ç”Ÿé”®ç›˜æ¶ˆæ¯ï¼Œéƒ½è¦æ‰§è¡Œ*/
 {
     uiGetKeyboard(key, event);
     switch (event) {
@@ -170,7 +170,7 @@ void TimerEventProcess(int timerID) {
 }
 
 void CharEventProcess(char ch) {
-    uiGetChar(ch); // GUI×Ö·ûÊäÈë
+    uiGetChar(ch); // GUIå­—ç¬¦è¾“å…¥
     if (IsStop) {
         RefreshDisplay();
         DrawGameOver();

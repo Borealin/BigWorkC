@@ -9,11 +9,11 @@
 void SaveGame(){
     TCHAR szPathName[MAX_PATH];
     BROWSEINFO bInfo = { 0 };
-    bInfo.hwndOwner = GetForegroundWindow();//父窗口
+    bInfo.hwndOwner = GetForegroundWindow();
     bInfo.lpszTitle = TEXT("浏览文件夹");
     bInfo.ulFlags = BIF_RETURNONLYFSDIRS | BIF_USENEWUI;
     LPITEMIDLIST lpDlist;
-    //lpDlist = SHBrowseForFolder(&bInfo);
+    lpDlist = SHBrowseForFolder(&bInfo);
     //if (lpDlist != NULL)
     if(SHBrowseForFolder(&bInfo))
     {
@@ -21,6 +21,7 @@ void SaveGame(){
         MessageBox(NULL, szPathName, L"Dir Name", MB_OK);
 
     }
+
 }
 void RecoverGame(){
 }

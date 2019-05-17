@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <genlib.h>
+#include <string.h>
 
 #define New(type) ((type) GetBlock(sizeof *((type) NULL)))
 
