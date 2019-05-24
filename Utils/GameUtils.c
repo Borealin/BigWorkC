@@ -52,6 +52,11 @@ int HaveSwitch = 0;
 
 void GameOver();
 
+/*
+	函数名：KeyboardEventProcess
+	功能：每当产生键盘消息时，执行对应的功能，对应俄罗斯方块的各项游戏功能
+	输入参数：
+*/
 void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都要执行 */
 {
     uiGetKeyboard(key, event);
@@ -130,6 +135,11 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
     }
 }
 
+/*
+	函数名：MouseEventProcess
+	功能：每当产生鼠标消息时，执行对应的功能
+	输入参数：
+*/
 void MouseEventProcess(int x, int y, int button, int event) {
     uiGetMouse(x, y, button, event);
     if (IsStop) {
@@ -142,6 +152,11 @@ void MouseEventProcess(int x, int y, int button, int event) {
     }
 }
 
+/*
+	函数名：TimerEventProcess
+	功能：每当产生计时器消息时，执行对应的功能
+	输入参数：
+*/
 void TimerEventProcess(int timerID) {
     switch (timerID) {
         case STOPREFRESH:
@@ -169,6 +184,11 @@ void TimerEventProcess(int timerID) {
     }
 }
 
+/*
+	函数名：CharEventProcess
+	功能：每当产生字符串消息时，执行对应的功能
+	输入参数：ch
+*/
 void CharEventProcess(char ch) {
     uiGetChar(ch); // GUI字符输入
     if (IsStop) {
@@ -186,6 +206,11 @@ void CharEventProcess(char ch) {
     }
 }
 
+/*
+	函数名：RefreshCurrent
+	功能：重置参数
+	输入参数：
+*/
 void RefreshCurrent() {
     current.x = 12;
     current.y = 20;
@@ -195,6 +220,11 @@ void RefreshCurrent() {
     HaveSwitch = 0;
 }
 
+/*
+	函数名：RefreshDisplay
+	功能：清除上次游戏排列的方块，重新绘出游戏界面
+	输入参数：
+*/
 void RefreshDisplay() {
     DisplayClear();
     DrawLayers(TetrominoMap);
@@ -207,6 +237,11 @@ void RefreshDisplay() {
     DrawFrame(0, 0);
 }
 
+/*
+	函数名：NewRound
+	功能：初始化参数，开始新的一轮游戏
+	输入参数：
+*/
 void NewRound() {
     cancelTimer(STOPREFRESH);
     IsStop = 0;
@@ -225,6 +260,11 @@ void NewRound() {
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
 
+/*
+	函数名：DrawResult
+	功能：当游戏结束时执行相对应的功能
+	输入参数：
+*/
 void DrawResult() {
     Tetromino tmp = current;
     while (JudgeBorder(tmp, 1)) {
@@ -234,6 +274,11 @@ void DrawResult() {
     DrawTetrominoOutline(tmp);
 }
 
+/*
+	函数名：UpdateRank
+	功能：若无排名则新建，若有排名则更新
+	输入参数：
+*/
 void UpdateRank() {
     if (RankList == NULL) {
         RankList = CreateList();
@@ -242,6 +287,11 @@ void UpdateRank() {
     DeleteNode(RankList);
 }
 
+/*
+	函数名：SwitchHold
+	功能：保持开关  （不懂 
+	输入参数：
+*/
 void SwitchHold() {
     if (!hold.type) {
         hold.type = current.type;
@@ -260,6 +310,11 @@ void SwitchHold() {
     }
 }
 
+/*
+	函数名：GameOver
+	功能：调用函数，完成当次游戏结束时的各项功能
+	输入参数：
+*/
 void GameOver() {
     cancelTimer(NORMAL_DOWN);
     cancelTimer(ACCELRATE_DOWN);
@@ -270,6 +325,11 @@ void GameOver() {
     startTimer(STOPREFRESH, 100);
 }
 
+/*
+	函数名：GamePause
+	功能：暂停游戏
+	输入参数：
+*/
 void GamePause() {
     cancelTimer(NORMAL_DOWN);
     cancelTimer(ACCELRATE_DOWN);
@@ -279,12 +339,22 @@ void GamePause() {
     DrawGamePause();
 }
 
+/*
+	函数名：GameResume
+	功能：重新开始游戏
+	输入参数：
+*/
 void GameResume() {
     startTimer(NORMAL_DOWN, (int) DownSpeed);
     IsPause = 0;
     RefreshDisplay();
 }
 
+/*
+	函数名：GameExit
+	功能：保存本次游戏内容并关闭游戏界面
+	输入参数：
+*/
 void GameExit() {
     SaveGame();
     ExitGraphics();

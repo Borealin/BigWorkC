@@ -2,7 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\simpleGUI",
-    "\\Tetris"
+    "\\Tetris",
+    "\\Utils"
   ],
   "SelectedNode": "\\Tetris\\Tetris.sln",
   "PreviewInSolutionExplorer": false
