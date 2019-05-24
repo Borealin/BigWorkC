@@ -69,7 +69,30 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ReferencePath)</ReferencePath>
+    <LibraryPath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ExecutablePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ReferencePath)</ReferencePath>
+    <LibraryPath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExecutablePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ReferencePath)</ReferencePath>
+    <LibraryPath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExecutablePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(ReferencePath)</ReferencePath>
+    <LibraryPath>D:\githouse\BigWorkC\Utils;D:\githouse\BigWorkC\simpleGUI;D:\githouse\BigWorkC\libgraphics;D:\githouse\BigWorkC\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Big\BigWorkC\Utils;D:\Big\BigWorkC\simpleGUI;D:\Big\BigWorkC\libgraphics;D:\Big\BigWorkC\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)_CRT_SECURE_NO_DEPRECATE_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -86,6 +109,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -96,6 +120,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -110,6 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

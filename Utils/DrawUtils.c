@@ -75,6 +75,11 @@ void DrawRankList();
 
 void SetDefaultStyle();
 
+/*
+	函数名：DrawTetromino
+	功能：根据输入的X的参数，画出具体的下落的一种俄罗斯方块
+	输入参数：名为X的Teromino类型的结构体
+*/
 void DrawTetromino(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; i++) {
@@ -84,7 +89,11 @@ void DrawTetromino(Tetromino x) {
                    DEFAULT_COLOR);
     }
 }
-
+/*
+	函数名：DrawTetrominoOutline
+	功能：
+	输入参数：名为X的Teromino类型的结构体
+*/
 void DrawTetrominoOutline(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; i++) {
@@ -93,7 +102,11 @@ void DrawTetrominoOutline(Tetromino x) {
                     1, 1, TetrominoColor[x.type]);
     }
 }
-
+/*	
+	函数名：DrawFrame        
+	功能：以输入的（x,y)确认新的坐标原点以绘制游戏的整体框架   （x,y)默认为（0，0）
+	输入参数：x,y 
+*/
 void DrawFrame(double x, double y) {
     FrameLeftCorner.x = x;
     FrameLeftCorner.y = y;
@@ -123,7 +136,11 @@ void DrawFrame(double x, double y) {
     DrawRankList();
 }
 
-
+/*
+	函数名：DrawBlocks
+	功能：根据输入参数，在确定的位置绘出确定颜色的方块，xyrc为确认在何位置画出多少数量的方块，字符串变量则以确定颜色
+	输入参数：x, y, r, c, InnerColor, OuterColor
+*/
 void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) {
     SetPenColor(InnerColor);
     for (int i = x; i < x + r; i++) {
@@ -153,6 +170,11 @@ void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) 
 
 }
 
+/*
+	函数名：DrawOutline
+	功能：绘制图形的轮廓线，可参考DrawBlocks的注释
+	输入参数：x, y, r, c, Color
+*/
 void DrawOutline(int x, int y, int r, int c, char *Color) {
     SetPenColor(Color);
     for (int i = x; i < x + r; i++) {
@@ -163,6 +185,11 @@ void DrawOutline(int x, int y, int r, int c, char *Color) {
     }
 }
 
+/*
+	函数名：DrawLayers
+	功能：行初始化后绘制整体的格子
+	输入参数：
+*/
 void DrawLayers(int head[12][22]) {
     if (!head[0][0]) {
         LayerInit();
@@ -176,6 +203,11 @@ void DrawLayers(int head[12][22]) {
     }
 }
 
+/*
+	函数名：DrawGameOver
+	功能：当游戏结束时，提示玩家游戏结束并输入姓名，并弹出“Click to Retey”字样提示玩家单击即可重新运行游戏
+	输入参数：
+*/
 void DrawGameOver() {
     SetPenColor("Magenta");
     drawBox(FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 13 * BlockLength, 8 * BlockLength,
@@ -194,6 +226,11 @@ void DrawGameOver() {
     }
 }
 
+/*
+	函数名：DrawRankList
+	功能：绘制排行榜，并在左边显示玩家名字，右边显示玩家得分
+	输入参数：本次游戏的得分currentNode->score及玩家输入的名字currentNode->name
+*/
 void DrawRankList() {
     char RankScoreText[10];
     if (RankList == NULL) {
@@ -216,6 +253,11 @@ void DrawRankList() {
     }
 }
 
+/*
+	函数名：DrawGamePause
+	功能：当玩家按下ESC时，弹出重新开始及退出两个选项
+	输入参数：
+*/
 void DrawGamePause() {
     SetDefaultStyle();
     if (button(GenUIID(2), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
@@ -228,6 +270,11 @@ void DrawGamePause() {
     }
 }
 
+/*
+	函数名：SetDefaultStyle
+	功能：为按钮以及内置文字的方块设置初始颜色，并预置内部填充
+	输入参数：
+*/
 void SetDefaultStyle() {
     setTextBoxColors("Magenta", "Black", "Dark Gray", "Gray", 1);
     setButtonColors("Magenta", "Black", "Dark Gray", "Gray", 1);

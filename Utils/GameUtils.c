@@ -52,7 +52,7 @@ int HaveSwitch = 0;
 
 void GameOver();
 
-void KeyboardEventProcess(int key, int event)/*每当产生键盘消息，都要执行*/
+void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都要执行 */
 {
     uiGetKeyboard(key, event);
     switch (event) {
