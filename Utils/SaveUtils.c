@@ -10,7 +10,7 @@ void SaveGame(){
     TCHAR szPathName[MAX_PATH];
     BROWSEINFO bInfo = { 0 };
     bInfo.hwndOwner = GetForegroundWindow();
-   // bInfo.lpszTitle = TEXT("浏览文件夹");
+    bInfo.lpszTitle = TEXT("浏览文件夹");
     bInfo.ulFlags = BIF_RETURNONLYFSDIRS | BIF_USENEWUI;
     LPITEMIDLIST lpDlist;
     lpDlist = SHBrowseForFolder(&bInfo);
