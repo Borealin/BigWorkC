@@ -9,6 +9,6 @@
 
 void SaveGame();
 
-void RecoverGame();
+int RecoverGame();
 
 #endif //BIGWORKC_SAVEUTILS_H
