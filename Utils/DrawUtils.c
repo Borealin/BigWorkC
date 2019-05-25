@@ -3,6 +3,7 @@
 //
 #define _CRT_NONSTDC_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -12,12 +13,13 @@
 #include "graphics.h"
 #include "imgui.h"
 #include "extgraph.h"
+#include "SaveUtils.h"
 #include <GameUtils.h>
 
-#define DEFAULT_COLOR "Black"
-#define FRAME_COLOR "Gray"
+#define DEFAULT_COLOR "White"
+#define FRAME_COLOR "Light Gray"
 
-const double BlockLength = 0.3;
+const double BlockLength = 0.5;
 
 DoublePoint FrameLeftCorner;
 
@@ -75,10 +77,11 @@ void DrawRankList();
 
 void SetDefaultStyle();
 
+void DrawMenu();
 /*
-	º¯ÊıÃû£ºDrawTetromino
-	¹¦ÄÜ£º¸ù¾İÊäÈëµÄXµÄ²ÎÊı£¬»­³ö¾ßÌåµÄÏÂÂäµÄÒ»ÖÖ¶íÂŞË¹·½¿é
-	ÊäÈë²ÎÊı£ºÃûÎªXµÄTerominoÀàĞÍµÄ½á¹¹Ìå
+	å‡½æ•°åï¼šDrawTetromino
+	åŠŸèƒ½ï¼šæ ¹æ®è¾“å…¥çš„Xçš„å‚æ•°ï¼Œç”»å‡ºå…·ä½“çš„ä¸‹è½çš„ä¸€ç§ä¿„ç½—æ–¯æ–¹å—
+	è¾“å…¥å‚æ•°ï¼šåä¸ºXçš„Terominoç±»å‹çš„ç»“æ„ä½“
 */
 void DrawTetromino(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
@@ -90,9 +93,9 @@ void DrawTetromino(Tetromino x) {
     }
 }
 /*
-	º¯ÊıÃû£ºDrawTetrominoOutline
-	¹¦ÄÜ£º
-	ÊäÈë²ÎÊı£ºÃûÎªXµÄTerominoÀàĞÍµÄ½á¹¹Ìå
+	å‡½æ•°åï¼šDrawTetrominoOutline
+	åŠŸèƒ½ï¼š
+	è¾“å…¥å‚æ•°ï¼šåä¸ºXçš„Terominoç±»å‹çš„ç»“æ„ä½“
 */
 void DrawTetrominoOutline(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
@@ -102,10 +105,10 @@ void DrawTetrominoOutline(Tetromino x) {
                     1, 1, TetrominoColor[x.type]);
     }
 }
-/*	
-	º¯ÊıÃû£ºDrawFrame        
-	¹¦ÄÜ£ºÒÔÊäÈëµÄ£¨x,y)È·ÈÏĞÂµÄ×ø±êÔ­µãÒÔ»æÖÆÓÎÏ·µÄÕûÌå¿ò¼Ü   £¨x,y)Ä¬ÈÏÎª£¨0£¬0£©
-	ÊäÈë²ÎÊı£ºx,y 
+/*
+	å‡½æ•°åï¼šDrawFrame
+	åŠŸèƒ½ï¼šä»¥è¾“å…¥çš„ï¼ˆx,y)ç¡®è®¤æ–°çš„åæ ‡åŸç‚¹ä»¥ç»˜åˆ¶æ¸¸æˆçš„æ•´ä½“æ¡†æ¶   ï¼ˆx,y)é»˜è®¤ä¸ºï¼ˆ0ï¼Œ0ï¼‰
+	è¾“å…¥å‚æ•°ï¼šx,y
 */
 void DrawFrame(double x, double y) {
     FrameLeftCorner.x = x;
@@ -134,12 +137,67 @@ void DrawFrame(double x, double y) {
     drawBox(x + 1 * BlockLength, y + 18 * BlockLength, BlockLength * 6, BlockLength * 2, 0, ScoreText, 'L', "Blue");
     drawBox(x + 1 * BlockLength, y + 14 * BlockLength, BlockLength * 6, BlockLength * 2, 0, LevelText, 'L', "Blue");
     DrawRankList();
+    DrawMenu();
+}
+
+void DrawMenu() {
+    SetDefaultStyle();
+    static char *menuListFile[] = {
+            "File",
+            "Save | Ctrl-S",
+            "Exit | Ctrl-E"};
+    static char *menuListTool[] = {
+            "Tool",
+            "Enable Hold | Ctrl-X",
+            "New Round | Ctrl-N",
+            "Pause | Esc"};
+    static char *menuListHelp[] = {
+            "Help",
+            "About"};
+
+    double x = FrameLeftCorner.x;
+    double y = FrameLeftCorner.y + 25 * BlockLength;
+    double h = BlockLength; // æ§ä»¶é«˜åº¦
+    double w = BlockLength * 26 / 3; // æ§ä»¶å®½åº¦
+    double wlist = BlockLength * 26 / 3;
+    int selection;
+
+    // File èœå•
+    selection = menuList(GenUIID(0), x, y - h, w, wlist, h, menuListFile,
+                         sizeof(menuListFile) / sizeof(menuListFile[0]));
+    if (selection == 1) {
+        SaveGame();
+    }
+    if (selection == 2) {
+        GameExit(1);
+    }
+
+    // Tool èœå•
+    menuListTool[1] = CanHold ? "Disable Hold | Ctrl-X" : "Enable Hold | Ctrl-X";
+    menuListTool[3] = IsPause ? "Resume | Esc" : "Pause | Esc";
+    selection = menuList(GenUIID(0), x + w, y - h, w, wlist, h, menuListTool,
+                         sizeof(menuListTool) / sizeof(menuListTool[0]));
+    switch (selection) {
+        case 1:
+            CanHold = CanHold ? 0 : 1;
+            break;
+        case 2:
+            NewRound();
+            break;
+        case 3:
+            IsPause ? GameResume() : GamePause();
+            break;
+        default:
+            break;
+    }
+    selection = menuList(GenUIID(0), x + 2 * w, y - h, w, wlist, h, menuListHelp,
+                         sizeof(menuListHelp) / sizeof(menuListHelp[0]));
 }
 
 /*
-	º¯ÊıÃû£ºDrawBlocks
-	¹¦ÄÜ£º¸ù¾İÊäÈë²ÎÊı£¬ÔÚÈ·¶¨µÄÎ»ÖÃ»æ³öÈ·¶¨ÑÕÉ«µÄ·½¿é£¬xyrcÎªÈ·ÈÏÔÚºÎÎ»ÖÃ»­³ö¶àÉÙÊıÁ¿µÄ·½¿é£¬×Ö·û´®±äÁ¿ÔòÒÔÈ·¶¨ÑÕÉ«
-	ÊäÈë²ÎÊı£ºx, y, r, c, InnerColor, OuterColor
+	å‡½æ•°åï¼šDrawBlocks
+	åŠŸèƒ½ï¼šæ ¹æ®è¾“å…¥å‚æ•°ï¼Œåœ¨ç¡®å®šçš„ä½ç½®ç»˜å‡ºç¡®å®šé¢œè‰²çš„æ–¹å—ï¼Œxyrcä¸ºç¡®è®¤åœ¨ä½•ä½ç½®ç”»å‡ºå¤šå°‘æ•°é‡çš„æ–¹å—ï¼Œå­—ç¬¦ä¸²å˜é‡åˆ™ä»¥ç¡®å®šé¢œè‰²
+	è¾“å…¥å‚æ•°ï¼šx, y, r, c, InnerColor, OuterColor
 */
 void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) {
     SetPenColor(InnerColor);
@@ -171,9 +229,9 @@ void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) 
 }
 
 /*
-	º¯ÊıÃû£ºDrawOutline
-	¹¦ÄÜ£º»æÖÆÍ¼ĞÎµÄÂÖÀªÏß£¬¿É²Î¿¼DrawBlocksµÄ×¢ÊÍ
-	ÊäÈë²ÎÊı£ºx, y, r, c, Color
+	å‡½æ•°åï¼šDrawOutline
+	åŠŸèƒ½ï¼šç»˜åˆ¶å›¾å½¢çš„è½®å»“çº¿ï¼Œå¯å‚è€ƒDrawBlocksçš„æ³¨é‡Š
+	è¾“å…¥å‚æ•°ï¼šx, y, r, c, Color
 */
 void DrawOutline(int x, int y, int r, int c, char *Color) {
     SetPenColor(Color);
@@ -186,9 +244,9 @@ void DrawOutline(int x, int y, int r, int c, char *Color) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawLayers
-	¹¦ÄÜ£ºĞĞ³õÊ¼»¯ºó»æÖÆÕûÌåµÄ¸ñ×Ó
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawLayers
+	åŠŸèƒ½ï¼šè¡Œåˆå§‹åŒ–åç»˜åˆ¶æ•´ä½“çš„æ ¼å­
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawLayers(int head[12][22]) {
     if (!head[0][0]) {
@@ -204,17 +262,17 @@ void DrawLayers(int head[12][22]) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawGameOver
-	¹¦ÄÜ£ºµ±ÓÎÏ·½áÊøÊ±£¬ÌáÊ¾Íæ¼ÒÓÎÏ·½áÊø²¢ÊäÈëĞÕÃû£¬²¢µ¯³ö¡°Click to Retey¡±×ÖÑùÌáÊ¾Íæ¼Òµ¥»÷¼´¿ÉÖØĞÂÔËĞĞÓÎÏ·
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawGameOver
+	åŠŸèƒ½ï¼šå½“æ¸¸æˆç»“æŸæ—¶ï¼Œæç¤ºç©å®¶æ¸¸æˆç»“æŸå¹¶è¾“å…¥å§“åï¼Œå¹¶å¼¹å‡ºâ€œClick to Reteyâ€å­—æ ·æç¤ºç©å®¶å•å‡»å³å¯é‡æ–°è¿è¡Œæ¸¸æˆ
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawGameOver() {
-    SetPenColor("Magenta");
+    SetPenColor("Gray");
     drawBox(FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 13 * BlockLength, 8 * BlockLength,
-            1 * BlockLength, 1, "Game Over", 'M', "Black");
-    SetPenColor("Magenta");
+            1 * BlockLength, 1, "Game Over", 'M', "White");
+    SetPenColor("Gray");
     drawBox(FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 8 * BlockLength,
-            1 * BlockLength, 1, "Please Input Your Name", 'M', "Black");
+            1 * BlockLength, 1, "Please Input Your Name", 'M', "White");
     SetDefaultStyle();
     textbox(GenUIID(0), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
             1 * BlockLength, Name,
@@ -227,9 +285,9 @@ void DrawGameOver() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawRankList
-	¹¦ÄÜ£º»æÖÆÅÅĞĞ°ñ£¬²¢ÔÚ×ó±ßÏÔÊ¾Íæ¼ÒÃû×Ö£¬ÓÒ±ßÏÔÊ¾Íæ¼ÒµÃ·Ö
-	ÊäÈë²ÎÊı£º±¾´ÎÓÎÏ·µÄµÃ·ÖcurrentNode->score¼°Íæ¼ÒÊäÈëµÄÃû×ÖcurrentNode->name
+	å‡½æ•°åï¼šDrawRankList
+	åŠŸèƒ½ï¼šç»˜åˆ¶æ’è¡Œæ¦œï¼Œå¹¶åœ¨å·¦è¾¹æ˜¾ç¤ºç©å®¶åå­—ï¼Œå³è¾¹æ˜¾ç¤ºç©å®¶å¾—åˆ†
+	è¾“å…¥å‚æ•°ï¼šæœ¬æ¬¡æ¸¸æˆçš„å¾—åˆ†currentNode->scoreåŠç©å®¶è¾“å…¥çš„åå­—currentNode->name
 */
 void DrawRankList() {
     char RankScoreText[10];
@@ -254,9 +312,9 @@ void DrawRankList() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawGamePause
-	¹¦ÄÜ£ºµ±Íæ¼Ò°´ÏÂESCÊ±£¬µ¯³öÖØĞÂ¿ªÊ¼¼°ÍË³öÁ½¸öÑ¡Ïî
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawGamePause
+	åŠŸèƒ½ï¼šå½“ç©å®¶æŒ‰ä¸‹ESCæ—¶ï¼Œå¼¹å‡ºé‡æ–°å¼€å§‹åŠé€€å‡ºä¸¤ä¸ªé€‰é¡¹
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawGamePause() {
     SetDefaultStyle();
@@ -266,16 +324,38 @@ void DrawGamePause() {
     }
     if (button(GenUIID(3), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Exit")) {
-        GameExit();
+        GameExit(1);
     }
 }
 
 /*
-	º¯ÊıÃû£ºSetDefaultStyle
-	¹¦ÄÜ£ºÎª°´Å¥ÒÔ¼°ÄÚÖÃÎÄ×ÖµÄ·½¿éÉèÖÃ³õÊ¼ÑÕÉ«£¬²¢Ô¤ÖÃÄÚ²¿Ìî³ä
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šSetDefaultStyle
+	åŠŸèƒ½ï¼šä¸ºæŒ‰é’®ä»¥åŠå†…ç½®æ–‡å­—çš„æ–¹å—è®¾ç½®åˆå§‹é¢œè‰²ï¼Œå¹¶é¢„ç½®å†…éƒ¨å¡«å……
+	è¾“å…¥å‚æ•°ï¼š
 */
 void SetDefaultStyle() {
-    setTextBoxColors("Magenta", "Black", "Dark Gray", "Gray", 1);
-    setButtonColors("Magenta", "Black", "Dark Gray", "Gray", 1);
+    setMenuColors("Gray", "White", "Dark Gray", "Black", 1);
+    setTextBoxColors("Gray", "White", "Dark Gray", "Black", 1);
+    setButtonColors("Gray", "White", "Dark Gray", "Black", 1);
+}
+
+void DrawInitPage() {
+    SetDefaultStyle();
+    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 14 * BlockLength, 8 * BlockLength,
+               2 * BlockLength, "New Game")) {
+        InitPage = 0;
+        UpdateRank();
+        NewRound();
+    }
+    if (CanContinue) {
+        if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength,
+                   8 * BlockLength,
+                   2 * BlockLength, "Continue")) {
+            GameContinue();
+        }
+    }
+    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 8 * BlockLength, 8 * BlockLength,
+               2 * BlockLength, "Exit")) {
+        GameExit(0);
+    }
 }
