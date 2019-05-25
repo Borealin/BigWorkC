@@ -17,5 +17,8 @@ void Main() {
     registerMouseEvent(MouseEventProcess);
     registerTimerEvent(TimerEventProcess);
     registerCharEvent(CharEventProcess);
-    NewRound();
+	DrawGameStart();
+//	NewRound();
+	
+
 }

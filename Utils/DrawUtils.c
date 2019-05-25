@@ -175,6 +175,40 @@ void DrawLayers(int head[12][22]) {
         }
     }
 }
+/*
+	函数名：DrawGameStart
+	函数功能：绘制游戏的开始界面
+	*/
+void DrawGameStart() {
+	SetPenColor("Blue");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 15 * BlockLength, 13 * BlockLength,
+		2 * BlockLength, 1, "Tetris", 'M', "White");
+	SetPenColor("Cyan");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength ,  FrameLeftCorner.y + 14 * BlockLength , 13 * BlockLength,
+		1 * BlockLength, 1, "UP - Rotate the falling tetromino", 'L', "Black");
+	SetPenColor("Cyan");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 13 * BlockLength, 13 * BlockLength,
+		1 * BlockLength, 1, "LEFT/RIGHT - Move the falling tetromino to the left/right", 'L', "Black");
+	SetPenColor("Cyan");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 13 * BlockLength,
+		1 * BlockLength, 1, "DOWN - Accelerate the falling tetromino", 'L', "Black");
+	SetPenColor("Cyan");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 13 * BlockLength,
+		1 * BlockLength, 1, "SPACE - Drop the tetromino to the bottom,", 'L', "Black");
+	SetPenColor("Cyan");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 13 * BlockLength,
+		1 * BlockLength, 1, "x - Reserve the next tetromino for later use ", 'L', "Black");
+	SetPenColor("Cyan");
+	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 9 * BlockLength, 13 * BlockLength,
+		1 * BlockLength, 1, "ESC - Pause ", 'L', "Black");
+	SetDefaultStyle();
+	if (button(GenUIID(0), FrameLeftCorner.x +  6 * BlockLength, FrameLeftCorner.y + 8* BlockLength, 13 * BlockLength,
+		1 * BlockLength, "Click to Start")) {
+		UpdateRank();
+		NewRound();
+	}
+}
+
 
 void DrawGameOver() {
     SetPenColor("Magenta");
@@ -229,6 +263,6 @@ void DrawGamePause() {
 }
 
 void SetDefaultStyle() {
-    setTextBoxColors("Magenta", "Black", "Dark Gray", "Gray", 1);
-    setButtonColors("Magenta", "Black", "Dark Gray", "Gray", 1);
+    setTextBoxColors("Violet", "Black", "Dark Gray", "Gray", 1);
+    setButtonColors("Violet", "Black", "Dark Gray", "Gray", 1);
 }
