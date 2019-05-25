@@ -16,6 +16,7 @@
 //
 //===========================================================================
 
+#define _CRT_SECURE_NO_WARNINGS
 #include "graphics.h"
 #include "extgraph.h"
 #include "genlib.h"

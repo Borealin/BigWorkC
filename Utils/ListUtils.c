@@ -1,6 +1,8 @@
 //
 // Created by Borealin on 2019/5/7.
 //
+
+#define _CRT_SECURE_NO_WARNINGS
 #include <ListUtils.h>
 #include <stdio.h>
 #include <stdlib.h>

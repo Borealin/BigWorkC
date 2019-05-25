@@ -29,6 +29,8 @@ void DrawFrame(double x, double y);
 
 void DrawLayers(int head[12][22]);
 
+void DrawGameStart();
+
 void DrawGameOver();
 
 void DrawGamePause();
