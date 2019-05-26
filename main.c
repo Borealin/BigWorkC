@@ -7,9 +7,10 @@
 #include <random.h>
 #include <JudgeUtils.h>
 #include <GameUtils.h>
+#include <SaveUtils.h>
 
 void Main() {
-    SetWindowSize(BlockLength * 26, BlockLength * 24);
+    SetWindowSize(BlockLength * 26, BlockLength * 25);
     InitGraphics();
     InitGUI() ;
     Randomize();
@@ -17,8 +18,6 @@ void Main() {
     registerMouseEvent(MouseEventProcess);
     registerTimerEvent(TimerEventProcess);
     registerCharEvent(CharEventProcess);
-	DrawGameStart();
-//	NewRound();
-	
-
+    CanContinue = RecoverGame();
+    DrawInitPage();
 }

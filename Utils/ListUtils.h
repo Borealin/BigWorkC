@@ -6,6 +6,8 @@
 #define BIGWORKC_LISTUTILS_H
 #define NAMELENGTH 16
 
+#define New(type) ((type) GetBlock(sizeof *((type) NULL)))
+
 struct ListNode {
     int score;
     char name[NAMELENGTH];
