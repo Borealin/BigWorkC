@@ -45,7 +45,9 @@ void NewRound();
 void UpdateRank();
 
 void GamePause();
+
 void GameResume();
+
 void GameContinue();
 
 void GameExit(int save);

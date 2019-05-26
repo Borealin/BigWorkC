@@ -19,7 +19,7 @@ ListNodePtr CreateList(void);
 
 void freeList(ListNodePtr head);
 
-ListNodePtr InsertNode(ListNodePtr head,int val, char *name);
+ListNodePtr InsertNode(ListNodePtr head, int val, char *name);
 
 ListNodePtr DeleteNode(ListNodePtr head);
 

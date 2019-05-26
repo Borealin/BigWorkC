@@ -73,11 +73,13 @@ void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor);
 
 void DrawOutline(int x, int y, int r, int c, char *Color);
 
+
 void DrawRankList();
 
 void SetDefaultStyle();
 
 void DrawMenu();
+
 /*
 	函数名：DrawTetromino
 	功能：根据输入的X的参数，画出具体的下落的一种俄罗斯方块
@@ -92,6 +94,7 @@ void DrawTetromino(Tetromino x) {
                    DEFAULT_COLOR);
     }
 }
+
 /*
 	函数名：DrawTetrominoOutline
 	功能：
@@ -105,6 +108,7 @@ void DrawTetrominoOutline(Tetromino x) {
                     1, 1, TetrominoColor[x.type]);
     }
 }
+
 /*
 	函数名：DrawFrame
 	功能：以输入的（x,y)确认新的坐标原点以绘制游戏的整体框架   （x,y)默认为（0，0）
@@ -260,38 +264,39 @@ void DrawLayers(int head[12][22]) {
         }
     }
 }
+
 /*
 	函数名：DrawGameStart
 	函数功能：绘制游戏的开始界面
 	*/
 void DrawGameStart() {
-	SetPenColor("Blue");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 15 * BlockLength, 13 * BlockLength,
-		2 * BlockLength, 1, "Tetris", 'M', "White");
-	SetPenColor("Cyan");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength ,  FrameLeftCorner.y + 14 * BlockLength , 13 * BlockLength,
-		1 * BlockLength, 1, "UP - Rotate the falling tetromino", 'L', "Black");
-	SetPenColor("Cyan");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 13 * BlockLength, 13 * BlockLength,
-		1 * BlockLength, 1, "LEFT/RIGHT - Move the falling tetromino to the left/right", 'L', "Black");
-	SetPenColor("Cyan");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 13 * BlockLength,
-		1 * BlockLength, 1, "DOWN - Accelerate the falling tetromino", 'L', "Black");
-	SetPenColor("Cyan");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 13 * BlockLength,
-		1 * BlockLength, 1, "SPACE - Drop the tetromino to the bottom,", 'L', "Black");
-	SetPenColor("Cyan");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 13 * BlockLength,
-		1 * BlockLength, 1, "x - Reserve the next tetromino for later use ", 'L', "Black");
-	SetPenColor("Cyan");
-	drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 9 * BlockLength, 13 * BlockLength,
-		1 * BlockLength, 1, "ESC - Pause ", 'L', "Black");
-	SetDefaultStyle();
-	if (button(GenUIID(0), FrameLeftCorner.x +  6 * BlockLength, FrameLeftCorner.y + 8* BlockLength, 13 * BlockLength,
-		1 * BlockLength, "Click to Start")) {
-		UpdateRank();
-		NewRound();
-	}
+    SetPenColor("Blue");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 15 * BlockLength, 13 * BlockLength,
+            2 * BlockLength, 1, "Tetris", 'M', "White");
+    SetPenColor("Cyan");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 14 * BlockLength, 13 * BlockLength,
+            1 * BlockLength, 1, "UP - Rotate the falling tetromino", 'L', "Black");
+    SetPenColor("Cyan");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 13 * BlockLength, 13 * BlockLength,
+            1 * BlockLength, 1, "LEFT/RIGHT - Move the falling tetromino to the left/right", 'L', "Black");
+    SetPenColor("Cyan");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, 13 * BlockLength,
+            1 * BlockLength, 1, "DOWN - Accelerate the falling tetromino", 'L', "Black");
+    SetPenColor("Cyan");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 13 * BlockLength,
+            1 * BlockLength, 1, "SPACE - Drop the tetromino to the bottom,", 'L', "Black");
+    SetPenColor("Cyan");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 10 * BlockLength, 13 * BlockLength,
+            1 * BlockLength, 1, "x - Reserve the next tetromino for later use ", 'L', "Black");
+    SetPenColor("Cyan");
+    drawBox(FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 9 * BlockLength, 13 * BlockLength,
+            1 * BlockLength, 1, "ESC - Pause ", 'L', "Black");
+    SetDefaultStyle();
+    if (button(GenUIID(0), FrameLeftCorner.x + 6 * BlockLength, FrameLeftCorner.y + 8 * BlockLength, 13 * BlockLength,
+               1 * BlockLength, "Click to Start")) {
+        UpdateRank();
+        NewRound();
+    }
 }
 
 
