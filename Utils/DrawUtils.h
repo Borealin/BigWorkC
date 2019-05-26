@@ -35,4 +35,6 @@ void DrawGameOver();
 
 void DrawGamePause();
 
+void DrawInitPage();
+
 #endif //BIGWORK_DRAWUTILS_H
