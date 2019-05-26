@@ -3,19 +3,19 @@
 //
 
 #define _CRT_SECURE_NO_WARNINGS
+
 #include <ListUtils.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <genlib.h>
 #include <string.h>
 
-#define New(type) ((type) GetBlock(sizeof *((type) NULL)))
-
 ListNodePtr CreateList(void) {
     ListNodePtr head = New(ListNodePtr);
     head->next = NULL;
     return head;
 }
+
 /*
  * 函数名称：freeList
  * 调用变量：ListNodePtr head
@@ -30,24 +30,25 @@ void freeList(ListNodePtr head) {
         current = next;
     }
 }
+
 /*
  * 函数名称：InsertNode
  * 调用变量：ListNodePtr head, int val, char*
  * 函数功能：将新的用户名和用户得分按得分排行插入到原有的链表中
  */
-ListNodePtr InsertNode(ListNodePtr head,int val,char* name) {
-    ListNodePtr current,previous;
-    current=head->next;
+ListNodePtr InsertNode(ListNodePtr head, int val, char *name) {
+    ListNodePtr current, previous;
+    current = head->next;
     previous = head;
-    while(current!=NULL&&current->score>=val){
-        previous=current;
-        current=current->next;
+    while (current != NULL && current->score >= val) {
+        previous = current;
+        current = current->next;
     }
-    ListNodePtr NewNode=New(ListNodePtr);
-    NewNode->score=val;
-    strncpy(NewNode->name,name, sizeof(NewNode->name));
-    previous->next=NewNode;
-    NewNode->next=current;
+    ListNodePtr NewNode = New(ListNodePtr);
+    NewNode->score = val;
+    strncpy(NewNode->name, name, sizeof(NewNode->name));
+    previous->next = NewNode;
+    NewNode->next = current;
     return head;
 }
 
@@ -55,11 +56,11 @@ ListNodePtr InsertNode(ListNodePtr head,int val,char* name) {
 ListNodePtr DeleteNode(ListNodePtr head) {
     ListNodePtr current;
     current = head;
-    int count=0;
-    while (current->next != NULL&&count<10) {
+    int count = 0;
+    while (current->next != NULL && count < 10) {
         current = current->next;
         count++;
     }
-   current->next=NULL;
+    current->next = NULL;
     return head;
 }

@@ -11,6 +11,7 @@ const int Y_CORNER = 1;
 
 
 void ClearFullLayer();
+
 /*
  * 函数名：LayerInit
  * 函数功能：行初始化
@@ -30,6 +31,7 @@ void LayerInit() {
         TetrominoMap[11][i] = 1;
     }
 }
+
 /*
  * 函数名：UpdateLayers
  * 调用变量：Tetromino x
@@ -43,6 +45,7 @@ void UpdateLayers(Tetromino x) {
     }
     ClearFullLayer();
 }
+
 /*
  * 函数名：JudgeBorder
  * 调用变量：Tetromino x,int FallDirection
@@ -65,6 +68,7 @@ int JudgeBorder(Tetromino x, int FallDirection) {//0:nothing been blocked 1:down
     }
     return 1;
 }
+
 /*
  * 函数名：ClearFullLayer
  * 函数功能：清除已填满的行并将上方的方块对应下移
@@ -91,6 +95,7 @@ void ClearFullLayer() {
     }
     Score += ScoreAdd[count];
 }
+
 /*
  * 函数名：JudgeGameOver
  * 函数功能：判断方块堆积的高度是否超过游戏界面高度，从而判断游戏是否结束
