@@ -9,6 +9,8 @@
 #include <genlib.h>
 #include <string.h>
 
+#define New(type) ((type) GetBlock(sizeof *((type) NULL)))
+
 ListNodePtr CreateList(void) {
     ListNodePtr head = New(ListNodePtr);
     head->next = NULL;

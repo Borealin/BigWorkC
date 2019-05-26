@@ -26,11 +26,6 @@ char Name[NAMELENGTH];
 int Score;
 int ScoreAdd[5];
 int Level;
-int IsStop;
-int IsPause;
-int CanHold;
-int InitPage;
-int CanContinue;
 
 void KeyboardEventProcess(int key, int event);/*键盘消息回调函数*/
 
@@ -44,10 +39,8 @@ void NewRound();
 
 void UpdateRank();
 
-void GamePause();
 void GameResume();
-void GameContinue();
 
-void GameExit(int save);
+void GameExit();
 
 #endif //BIGWORKC_GAMEUTILS_H

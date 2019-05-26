@@ -20,7 +20,8 @@ int IsStop = 0;
 
 int IsPause = 0;
 
-int CanHold = 1;
+void GamePause();
+
 
 double DownSpeed = 600;
 
@@ -36,10 +37,6 @@ int ScoreAdd[5] = {
         10, 100, 200, 400, 800
 };
 int Level;
-
-int InitPage = 1;
-
-int CanContinue = 0;
 
 void RefreshCurrent();
 
@@ -63,12 +60,9 @@ void GameOver();
 void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都要执行 */
 {
     uiGetKeyboard(key, event);
-    if (InitPage) {
-        return;
-    }
     switch (event) {
         case KEY_DOWN:
-            if (!IsStop && !IsPause) {
+            if (!IsStop||!IsPause) {
                 switch (key) {
                     case VK_SPACE:
                         while (JudgeBorder(current, 3)) {
@@ -113,7 +107,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_ESCAPE:
-                        IsPause ? GameResume() : GamePause();
+                        IsPause?GameResume():GamePause();
                         break;
                     default:
                         break;
@@ -121,7 +115,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
             }
             break;
         case KEY_UP:
-            if (!IsStop && !IsPause) {
+            if (!IsStop||!IsPause) {
                 switch (key) {
                     case VK_DOWN:
                         if (IsAccelerate) {
@@ -148,29 +142,13 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
 */
 void MouseEventProcess(int x, int y, int button, int event) {
     uiGetMouse(x, y, button, event);
-    if (InitPage) {
-        switch (event) {
-            case MOUSEMOVE:
-                break;
-            default:
-                DisplayClear();
-                DrawInitPage();
-                break;
-        }
-        return;
+    if (IsStop) {
+        RefreshDisplay();
+        DrawGameOver();
     }
-    switch (event) {
-        case MOUSEMOVE:
-            break;
-        default:
-            RefreshDisplay();
-            if (IsStop) {
-                DrawGameOver();
-            }
-            if (IsPause) {
-                DrawGamePause();
-            }
-            break;
+    if (IsPause) {
+        RefreshDisplay();
+        DrawGamePause();
     }
 }
 
@@ -180,9 +158,6 @@ void MouseEventProcess(int x, int y, int button, int event) {
 	输入参数：
 */
 void TimerEventProcess(int timerID) {
-    if (InitPage) {
-        return;
-    }
     switch (timerID) {
         case STOPREFRESH:
             RefreshDisplay();
@@ -216,18 +191,13 @@ void TimerEventProcess(int timerID) {
 */
 void CharEventProcess(char ch) {
     uiGetChar(ch); // GUI字符输入
-    if (InitPage) {
-        return;
-    }
     if (IsStop) {
         RefreshDisplay();
         DrawGameOver();
     } else {
         switch (ch) {
             case 'x':
-                if (CanHold) {
-                    SwitchHold();
-                }
+                SwitchHold();
                 RefreshDisplay();
                 break;
             default:
@@ -263,9 +233,7 @@ void RefreshDisplay() {
         DrawResult();
     }
     DrawTetromino(next);
-    if (CanHold) {
-        DrawTetromino(hold);
-    }
+    DrawTetromino(hold);
     DrawFrame(0, 0);
 }
 
@@ -321,7 +289,7 @@ void UpdateRank() {
 
 /*
 	函数名：SwitchHold
-	功能：保持开关  （不懂
+	功能：保持开关  （不懂 
 	输入参数：
 */
 void SwitchHold() {
@@ -332,11 +300,12 @@ void SwitchHold() {
         if (!HaveSwitch) {
             int tmp = current.type;
             current.type = hold.type;
-            current.x = 12;
-            current.y = 20;
-            current.direction = 0;
-            hold.type = tmp;
-            HaveSwitch = 1;
+            if (!JudgeBorder(current, 1)) {
+                current.type = tmp;
+            } else {
+                hold.type = tmp;
+                HaveSwitch = 1;
+            }
         }
     }
 }
@@ -386,15 +355,7 @@ void GameResume() {
 	功能：保存本次游戏内容并关闭游戏界面
 	输入参数：
 */
-void GameExit(int save) {
-    if (save) {
-        SaveGame();
-    }
+void GameExit() {
+    SaveGame();
     ExitGraphics();
-}
-
-void GameContinue() {
-    InitPage = 0;
-    RefreshDisplay();
-    startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
