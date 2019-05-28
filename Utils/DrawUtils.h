@@ -37,4 +37,6 @@ void DrawGamePause();
 
 void DrawInitPage();
 
+void DrawClearBlink(int Clear[],int n);
+
 #endif //BIGWORK_DRAWUTILS_H

@@ -75,6 +75,7 @@ int JudgeBorder(Tetromino x, int FallDirection) {//0:nothing been blocked 1:down
  */
 void ClearFullLayer() {
     int count = 0;
+    int clearlines[4];
     for (int j = 1; j < 21; ++j) {
         int clear = 1;
         for (int i = 1; i < 11; ++i) {
@@ -83,17 +84,34 @@ void ClearFullLayer() {
                 break;
             }
         }
-        if (clear) {
-            count++;
-            for (int k = j + 1; k < 21; ++k) {
-                for (int i = 1; i < 11; ++i) {
-                    TetrominoMap[i][k - 1] = TetrominoMap[i][k];
-                }
-            }
-            j--;
+        if(clear){
+            clearlines[count++]=j;
         }
     }
-    Score += ScoreAdd[count];
+    RefreshDisplay();
+    DrawClearBlink(clearlines,count);
+    if(count) {
+        for (int j = 1; j < 21; ++j) {
+            int clear = 1;
+            for (int i = 1; i < 11; ++i) {
+                if (!TetrominoMap[i][j]) {
+                    clear = 0;
+                    break;
+                }
+            }
+            if (clear) {
+                for (int k = j + 1; k < 21; ++k) {
+                    for (int i = 1; i < 11; ++i) {
+                        TetrominoMap[i][k - 1] = TetrominoMap[i][k];
+                    }
+                }
+                j--;
+            }
+        }
+        Score += ScoreAdd[count];
+        ClearedLayer += count;
+        UpdateLevel();
+    }
 }
 
 /*

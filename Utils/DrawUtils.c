@@ -154,6 +154,8 @@ void DrawMenu() {
             "Tool",
             "Enable Hold | Ctrl-X",
             "New Round | Ctrl-N",
+            "Level Up | Ctrl-Up",
+            "Level Down | Ctrl-Down",
             "Pause | Esc"};
     static char *menuListHelp[] = {
             "Help",
@@ -178,7 +180,7 @@ void DrawMenu() {
 
     // Tool 菜单
     menuListTool[1] = CanHold ? "Disable Hold | Ctrl-X" : "Enable Hold | Ctrl-X";
-    menuListTool[3] = IsPause ? "Resume | Esc" : "Pause | Esc";
+    menuListTool[5] = IsPause ? "Resume | Esc" : "Pause | Esc";
     selection = menuList(GenUIID(0), x + w, y - h, w, wlist, h, menuListTool,
                          sizeof(menuListTool) / sizeof(menuListTool[0]));
     switch (selection) {
@@ -189,6 +191,14 @@ void DrawMenu() {
             NewRound();
             break;
         case 3:
+            Level = Level>11?12:Level+1;
+            ResetDownTimer();
+            break;
+        case 4:
+            Level = Level<1?0:Level-1;
+            ResetDownTimer();
+            break;
+        case 5:
             IsPause ? GameResume() : GamePause();
             break;
         default:
@@ -397,4 +407,25 @@ void DrawInitPage() {
                2 * BlockLength, "Exit")) {
         GameExit(0);
     }
+}
+
+void DrawClearBlink(int Clear[],int n){
+    PauseTimer();
+    if(n) {
+        for (int i = 0; i < 2; ++i) {
+            for (int j = 0; j < n; ++j) {
+                for (int k = 1; k < 11; ++k) {
+                    DrawBlocks(X_CORNER + k, Y_CORNER + Clear[j], 1, 1, TetrominoColor[TetrominoMap[k][Clear[j]]], DEFAULT_COLOR);
+                }
+            }
+            Pause(0.08);
+            for (int j = 0; j < n; ++j) {
+                for (int k = 1; k < 11; ++k) {
+                    DrawBlocks(X_CORNER + k, Y_CORNER + Clear[j], 1, 1, "Gray", DEFAULT_COLOR);
+                }
+            }
+            Pause(0.08);
+        }
+    }
+    ResumeTimer();
 }
