@@ -51,8 +51,6 @@ int ControlDown = 0;
 
 void RefreshCurrent();
 
-void RefreshDisplay();
-
 void DisplayClear(void);
 
 void DrawResult();
@@ -85,6 +83,20 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                 case VK_ESCAPE:
                     IsPause ? GameResume() : GamePause();
                     break;
+                case VK_DOWN:
+                    if (ControlDown) {
+                        Level = Level < 1 ? 0 : Level - 1;
+                        ResetDownTimer();
+                        RefreshDisplay();
+                    }
+                    break;
+                case VK_UP:
+                    if (ControlDown) {
+                        Level = Level > 11 ? 12 : Level + 1;
+                        ResetDownTimer();
+                        RefreshDisplay();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -104,11 +116,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_DOWN:
-                        if (ControlDown) {
-                            Level = Level < 1 ? 0 : Level - 1;
-                            ResetDownTimer();
-                            RefreshDisplay();
-                        } else if (!IsAccelerate) {
+                        if (!IsAccelerate) {
                             IsAccelerate = 1;
                             cancelTimer(NORMAL_DOWN);
                             startTimer(ACCELRATE_DOWN, 50);
@@ -130,17 +138,11 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_UP:
-                        if (ControlDown) {
-                            Level = Level > 11 ? 12 : Level + 1;
-                            ResetDownTimer();
-                            RefreshDisplay();
-                        } else {
                             current.direction = (current.direction + 1) % 4;
                             if (!JudgeBorder(current, 1)) {
                                 current.direction = ((current.direction - 1) % 4 + 4) % 4;
                             }
                             RefreshDisplay();
-                        }
                         break;
                     default:
                         break;
@@ -191,12 +193,6 @@ void MouseEventProcess(int x, int y, int button, int event) {
         return;
     }
     RefreshDisplay();
-    if (IsStop) {
-        DrawGameOver();
-    }
-    if (IsPause) {
-        DrawGamePause();
-    }
 }
 
 /*
@@ -284,7 +280,13 @@ void RefreshDisplay() {
     DisplayClear();
     DrawLayers(TetrominoMap);
     DrawTetromino(current);
-    if (!IsStop) {
+    if (IsStop) {
+        DrawGameOver();
+    }
+    if (IsPause) {
+        DrawGamePause();
+    }
+    if (!IsStop&&!IsPause) {
         DrawResult();
     }
     DrawTetromino(next);
@@ -440,5 +442,7 @@ void UpdateLevel() {
 void ResetDownTimer() {
     DownSpeed = LevelSpeed[Level];
     cancelTimer(NORMAL_DOWN);
-    startTimer(NORMAL_DOWN, (int) DownSpeed);
+    if (!IsStop && !IsPause) {
+        startTimer(NORMAL_DOWN, (int) DownSpeed);
+    }
 }

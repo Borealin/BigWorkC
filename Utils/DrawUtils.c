@@ -421,7 +421,7 @@ void DrawClearBlink(int Clear[],int n){
             Pause(0.08);
             for (int j = 0; j < n; ++j) {
                 for (int k = 1; k < 11; ++k) {
-                    DrawBlocks(X_CORNER + k, Y_CORNER + Clear[j], 1, 1, "Gray", DEFAULT_COLOR);
+                    DrawBlocks(X_CORNER + k, Y_CORNER + Clear[j], 1, 1, "White", DEFAULT_COLOR);
                 }
             }
             Pause(0.08);

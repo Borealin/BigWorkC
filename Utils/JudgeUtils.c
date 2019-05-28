@@ -121,7 +121,7 @@ void ClearFullLayer() {
 int JudgeGameOver(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
     for (int i = 0; i < 4; ++i) {
-        if (x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER + 1 >= 20) {
+        if (x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER + 1 > 20) {
             return 1;
         }
     }
