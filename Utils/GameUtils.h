@@ -31,6 +31,7 @@ int IsPause;
 int CanHold;
 int InitPage;
 int CanContinue;
+int ClearedLayer;
 
 void KeyboardEventProcess(int key, int event);/*键盘消息回调函数*/
 
@@ -51,5 +52,15 @@ void GameResume();
 void GameContinue();
 
 void GameExit(int save);
+
+void PauseTimer();
+
+void ResumeTimer();
+
+void UpdateLevel();
+
+void ResetDownTimer();
+
+void RefreshDisplay();
 
 #endif //BIGWORKC_GAMEUTILS_H

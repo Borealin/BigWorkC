@@ -16,6 +16,7 @@ void SaveGame() {
     fwrite(&Score, sizeof(int), 1, data);
     fwrite(&Level, sizeof(int), 1, data);
     fwrite(&CanHold, sizeof(int), 1, data);
+    fwrite(&ClearedLayer, sizeof(int), 1, data);
     for (int i = 0; i < 12; ++i) {
         for (int j = 0; j < 22; ++j) {
             fwrite(&TetrominoMap[i][j], sizeof(int), 1, data);
@@ -44,6 +45,7 @@ int RecoverGame() {
     fread(&Score, sizeof(int), 1, data);
     fread(&Level, sizeof(int), 1, data);
     fread(&CanHold, sizeof(int), 1, data);
+    fread(&ClearedLayer, sizeof(int), 1, data);
     for (int i = 0; i < 12; ++i) {
         for (int j = 0; j < 22; ++j) {
             int tmp;

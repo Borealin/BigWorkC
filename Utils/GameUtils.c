@@ -41,6 +41,14 @@ int InitPage = 1;
 
 int CanContinue = 0;
 
+int ClearedLayer = 0;
+
+int LevelSpeed[13] = {
+        800, 750, 700, 650, 600, 550, 500, 450, 400, 375, 350, 325, 300
+};
+
+int ControlDown = 0;
+
 void RefreshCurrent();
 
 void RefreshDisplay();
@@ -68,6 +76,18 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
     }
     switch (event) {
         case KEY_DOWN:
+            switch (key) {
+                case VK_CONTROL:
+                    if (!ControlDown) {
+                        ControlDown = 1;
+                    }
+                    break;
+                case VK_ESCAPE:
+                    IsPause ? GameResume() : GamePause();
+                    break;
+                default:
+                    break;
+            }
             if (!IsStop && !IsPause) {
                 switch (key) {
                     case VK_SPACE:
@@ -84,10 +104,14 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_DOWN:
-                        if (!IsAccelerate) {
+                        if (ControlDown) {
+                            Level = Level < 1 ? 0 : Level - 1;
+                            ResetDownTimer();
+                            RefreshDisplay();
+                        } else if (!IsAccelerate) {
                             IsAccelerate = 1;
                             cancelTimer(NORMAL_DOWN);
-                            startTimer(ACCELRATE_DOWN, 60);
+                            startTimer(ACCELRATE_DOWN, 50);
                             RefreshDisplay();
                         }
                         break;
@@ -106,14 +130,17 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_UP:
-                        current.direction = (current.direction + 1) % 4;
-                        if (!JudgeBorder(current, 1)) {
-                            current.direction = ((current.direction - 1) % 4 + 4) % 4;
+                        if (ControlDown) {
+                            Level = Level > 11 ? 12 : Level + 1;
+                            ResetDownTimer();
+                            RefreshDisplay();
+                        } else {
+                            current.direction = (current.direction + 1) % 4;
+                            if (!JudgeBorder(current, 1)) {
+                                current.direction = ((current.direction - 1) % 4 + 4) % 4;
+                            }
+                            RefreshDisplay();
                         }
-                        RefreshDisplay();
-                        break;
-                    case VK_ESCAPE:
-                        IsPause ? GameResume() : GamePause();
                         break;
                     default:
                         break;
@@ -121,6 +148,13 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
             }
             break;
         case KEY_UP:
+            switch (key) {
+                case VK_CONTROL:
+                    ControlDown = 0;
+                    break;
+                default:
+                    break;
+            }
             if (!IsStop && !IsPause) {
                 switch (key) {
                     case VK_DOWN:
@@ -149,28 +183,19 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
 void MouseEventProcess(int x, int y, int button, int event) {
     uiGetMouse(x, y, button, event);
     if (InitPage) {
-        switch (event) {
-            case MOUSEMOVE:
-                break;
-            default:
-                DisplayClear();
-                DrawInitPage();
-                break;
-        }
+        DisplayClear();
+        DrawInitPage();
         return;
     }
-    switch (event) {
-        case MOUSEMOVE:
-            break;
-        default:
-            RefreshDisplay();
-            if (IsStop) {
-                DrawGameOver();
-            }
-            if (IsPause) {
-                DrawGamePause();
-            }
-            break;
+    if (!(IsStop || IsPause)) {
+        return;
+    }
+    RefreshDisplay();
+    if (IsStop) {
+        DrawGameOver();
+    }
+    if (IsPause) {
+        DrawGamePause();
     }
 }
 
@@ -187,11 +212,6 @@ void TimerEventProcess(int timerID) {
         case STOPREFRESH:
             RefreshDisplay();
             DrawGameOver();
-            break;
-        case SPEEDUP:
-//            DownSpeed=DownSpeed*0.8;
-//            cancelTimer(NORMAL_DOWN);
-//            startTimer(NORMAL_DOWN,(int)DownSpeed);
             break;
         default:
             current.y--;
@@ -225,6 +245,11 @@ void CharEventProcess(char ch) {
     } else {
         switch (ch) {
             case 'x':
+                if (ControlDown) {
+                    CanHold = CanHold ? 0 : 1;
+                    RefreshDisplay();
+                    break;
+                }
                 if (CanHold) {
                     SwitchHold();
                 }
@@ -277,6 +302,8 @@ void RefreshDisplay() {
 void NewRound() {
     cancelTimer(STOPREFRESH);
     IsStop = 0;
+    ClearedLayer = 0;
+    DownSpeed = LevelSpeed[0];
     LayerInit();
     for (int i = 0; i < sizeof(Name); i++) {
         Name[i] = 0;
@@ -347,9 +374,7 @@ void SwitchHold() {
 	输入参数：
 */
 void GameOver() {
-    cancelTimer(NORMAL_DOWN);
-    cancelTimer(ACCELRATE_DOWN);
-    cancelTimer(SPEEDUP);
+    PauseTimer();
     IsStop = 1;
     RefreshDisplay();
     DrawGameOver();
@@ -362,9 +387,7 @@ void GameOver() {
 	输入参数：
 */
 void GamePause() {
-    cancelTimer(NORMAL_DOWN);
-    cancelTimer(ACCELRATE_DOWN);
-    cancelTimer(SPEEDUP);
+    PauseTimer();
     IsPause = 1;
     RefreshDisplay();
     DrawGamePause();
@@ -396,5 +419,26 @@ void GameExit(int save) {
 void GameContinue() {
     InitPage = 0;
     RefreshDisplay();
+    startTimer(NORMAL_DOWN, (int) DownSpeed);
+}
+
+void PauseTimer() {
+    cancelTimer(NORMAL_DOWN);
+    cancelTimer(ACCELRATE_DOWN);
+}
+
+void ResumeTimer() {
+    startTimer(NORMAL_DOWN, (int) DownSpeed);
+}
+
+void UpdateLevel() {
+    Level = Level + (ClearedLayer / 10) > 12 ? 12 : Level + (ClearedLayer / 10);
+    ClearedLayer = ClearedLayer % 10;
+    ResetDownTimer();
+}
+
+void ResetDownTimer() {
+    DownSpeed = LevelSpeed[Level];
+    cancelTimer(NORMAL_DOWN);
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
