@@ -30,7 +30,9 @@ int IsPause;
 int CanHold;
 int InitPage;
 int CanContinue;
-int ClearedLayer;
+int AllClearedLayer;
+int ShowAbout;
+int ShowHelp;
 
 void KeyboardEventProcess(int key, int event);/*键盘消息回调函数*/
 
@@ -56,7 +58,7 @@ void PauseTimer();
 
 void ResumeTimer();
 
-void UpdateLevel();
+void UpdateLevel(int count);
 
 void ResetDownTimer();
 

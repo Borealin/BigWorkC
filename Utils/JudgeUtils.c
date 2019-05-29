@@ -108,10 +108,9 @@ void ClearFullLayer() {
                 j--;
             }
         }
-        Score += ScoreAdd[count];
-        ClearedLayer += count;
-        UpdateLevel();
+        UpdateLevel(count);
     }
+    Score += ScoreAdd[count];
 }
 
 /*
