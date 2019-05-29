@@ -15,6 +15,7 @@
 #include "extgraph.h"
 #include "SaveUtils.h"
 #include <GameUtils.h>
+#include <random.h>
 
 #define DEFAULT_COLOR "White"
 #define FRAME_COLOR "Light Gray"
@@ -191,11 +192,11 @@ void DrawMenu() {
             NewRound();
             break;
         case 3:
-            Level = Level>11?12:Level+1;
+            Level = Level > 11 ? 12 : Level + 1;
             ResetDownTimer();
             break;
         case 4:
-            Level = Level<1?0:Level-1;
+            Level = Level < 1 ? 0 : Level - 1;
             ResetDownTimer();
             break;
         case 5:
@@ -390,32 +391,51 @@ void SetDefaultStyle() {
 
 void DrawInitPage() {
     SetDefaultStyle();
-    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 14 * BlockLength, 8 * BlockLength,
+    int Title[7][35] = {
+            {0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1},
+    };
+    for (int i = 0; i < 7; i++) {
+        for (int j = 0; j < 35; ++j) {
+            if (Title[i][j]) {
+                SetPenColor(TetrominoColor[RandomInteger(1, 7)]);
+                drawRectangle(FrameLeftCorner.x + (8.5+j) * BlockLength/2, FrameLeftCorner.y + (32+i) * BlockLength/2, BlockLength/2,
+                              BlockLength/2, 1);
+            }
+        }
+    }
+    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "New Game")) {
         InitPage = 0;
         UpdateRank();
         NewRound();
     }
     if (CanContinue) {
-        if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength,
+        if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 8 * BlockLength,
                    8 * BlockLength,
                    2 * BlockLength, "Continue")) {
             GameContinue();
         }
     }
-    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 8 * BlockLength, 8 * BlockLength,
+    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 5 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Exit")) {
-        GameExit(0);
+        GameExit(1);
     }
 }
 
-void DrawClearBlink(int Clear[],int n){
+void DrawClearBlink(int Clear[], int n) {
     PauseTimer();
-    if(n) {
+    if (n) {
         for (int i = 0; i < 2; ++i) {
             for (int j = 0; j < n; ++j) {
                 for (int k = 1; k < 11; ++k) {
-                    DrawBlocks(X_CORNER + k, Y_CORNER + Clear[j], 1, 1, TetrominoColor[TetrominoMap[k][Clear[j]]], DEFAULT_COLOR);
+                    DrawBlocks(X_CORNER + k, Y_CORNER + Clear[j], 1, 1, TetrominoColor[TetrominoMap[k][Clear[j]]],
+                               DEFAULT_COLOR);
                 }
             }
             Pause(0.08);
