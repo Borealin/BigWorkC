@@ -39,4 +39,8 @@ void DrawInitPage();
 
 void DrawClearBlink(int Clear[],int n);
 
+void DrawAbout();
+
+void DrawHelp();
+
 #endif //BIGWORK_DRAWUTILS_H

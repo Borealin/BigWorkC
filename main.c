@@ -13,6 +13,7 @@ void Main() {
     SetWindowSize(BlockLength * 26, BlockLength * 25);
     InitGraphics();
     InitGUI() ;
+    SetWindowTitle("Tetris");
     Randomize();
     registerKeyboardEvent(KeyboardEventProcess);
     registerMouseEvent(MouseEventProcess);

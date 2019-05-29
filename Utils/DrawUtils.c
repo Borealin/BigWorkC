@@ -82,9 +82,9 @@ void SetDefaultStyle();
 void DrawMenu();
 
 /*
-	å‡½æ•°åï¼šDrawTetromino
-	åŠŸèƒ½ï¼šæ ¹æ®è¾“å…¥çš„Xçš„å‚æ•°ï¼Œç”»å‡ºå…·ä½“çš„ä¸‹è½çš„ä¸€ç§ä¿„ç½—æ–¯æ–¹å—
-	è¾“å…¥å‚æ•°ï¼šåä¸ºXçš„Terominoç±»å‹çš„ç»“æ„ä½“
+	º¯ÊıÃû£ºDrawTetromino
+	¹¦ÄÜ£º¸ù¾İÊäÈëµÄXµÄ²ÎÊı£¬»­³ö¾ßÌåµÄÏÂÂäµÄÒ»ÖÖ¶íÂŞË¹·½¿é
+	ÊäÈë²ÎÊı£ºÃûÎªXµÄTerominoÀàĞÍµÄ½á¹¹Ìå
 */
 void DrawTetromino(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
@@ -97,9 +97,9 @@ void DrawTetromino(Tetromino x) {
 }
 
 /*
-	å‡½æ•°åï¼šDrawTetrominoOutline
-	åŠŸèƒ½ï¼š
-	è¾“å…¥å‚æ•°ï¼šåä¸ºXçš„Terominoç±»å‹çš„ç»“æ„ä½“
+	º¯ÊıÃû£ºDrawTetrominoOutline
+	¹¦ÄÜ£º
+	ÊäÈë²ÎÊı£ºÃûÎªXµÄTerominoÀàĞÍµÄ½á¹¹Ìå
 */
 void DrawTetrominoOutline(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
@@ -111,9 +111,9 @@ void DrawTetrominoOutline(Tetromino x) {
 }
 
 /*
-	å‡½æ•°åï¼šDrawFrame
-	åŠŸèƒ½ï¼šä»¥è¾“å…¥çš„ï¼ˆx,y)ç¡®è®¤æ–°çš„åæ ‡åŸç‚¹ä»¥ç»˜åˆ¶æ¸¸æˆçš„æ•´ä½“æ¡†æ¶   ï¼ˆx,y)é»˜è®¤ä¸ºï¼ˆ0ï¼Œ0ï¼‰
-	è¾“å…¥å‚æ•°ï¼šx,y
+	º¯ÊıÃû£ºDrawFrame
+	¹¦ÄÜ£ºÒÔÊäÈëµÄ£¨x,y)È·ÈÏĞÂµÄ×ø±êÔ­µãÒÔ»æÖÆÓÎÏ·µÄÕûÌå¿ò¼Ü   £¨x,y)Ä¬ÈÏÎª£¨0£¬0£©
+	ÊäÈë²ÎÊı£ºx,y
 */
 void DrawFrame(double x, double y) {
     FrameLeftCorner.x = x;
@@ -159,17 +159,18 @@ void DrawMenu() {
             "Level Down | Ctrl-Down",
             "Pause | Esc"};
     static char *menuListHelp[] = {
+            "Other",
             "Help",
             "About"};
 
     double x = FrameLeftCorner.x;
     double y = FrameLeftCorner.y + 25 * BlockLength;
-    double h = BlockLength; // æ§ä»¶é«˜åº¦
-    double w = BlockLength * 26 / 3; // æ§ä»¶å®½åº¦
+    double h = BlockLength; // ¿Ø¼ş¸ß¶È
+    double w = BlockLength * 26 / 3; // ¿Ø¼ş¿í¶È
     double wlist = BlockLength * 26 / 3;
     int selection;
 
-    // File èœå•
+    // File ²Ëµ¥
     selection = menuList(GenUIID(0), x, y - h, w, wlist, h, menuListFile,
                          sizeof(menuListFile) / sizeof(menuListFile[0]));
     if (selection == 1) {
@@ -179,7 +180,7 @@ void DrawMenu() {
         GameExit(1);
     }
 
-    // Tool èœå•
+    // Tool ²Ëµ¥
     menuListTool[1] = CanHold ? "Disable Hold | Ctrl-X" : "Enable Hold | Ctrl-X";
     menuListTool[5] = IsPause ? "Resume | Esc" : "Pause | Esc";
     selection = menuList(GenUIID(0), x + w, y - h, w, wlist, h, menuListTool,
@@ -207,12 +208,24 @@ void DrawMenu() {
     }
     selection = menuList(GenUIID(0), x + 2 * w, y - h, w, wlist, h, menuListHelp,
                          sizeof(menuListHelp) / sizeof(menuListHelp[0]));
+    switch (selection) {
+        case 1:
+            ShowHelp = ShowHelp?0:1;
+            RefreshDisplay();
+            break;
+        case 2:
+            ShowAbout = ShowAbout?0:1;
+            RefreshDisplay();
+            break;
+        default:
+            break;
+    }
 }
 
 /*
-	å‡½æ•°åï¼šDrawBlocks
-	åŠŸèƒ½ï¼šæ ¹æ®è¾“å…¥å‚æ•°ï¼Œåœ¨ç¡®å®šçš„ä½ç½®ç»˜å‡ºç¡®å®šé¢œè‰²çš„æ–¹å—ï¼Œxyrcä¸ºç¡®è®¤åœ¨ä½•ä½ç½®ç”»å‡ºå¤šå°‘æ•°é‡çš„æ–¹å—ï¼Œå­—ç¬¦ä¸²å˜é‡åˆ™ä»¥ç¡®å®šé¢œè‰²
-	è¾“å…¥å‚æ•°ï¼šx, y, r, c, InnerColor, OuterColor
+	º¯ÊıÃû£ºDrawBlocks
+	¹¦ÄÜ£º¸ù¾İÊäÈë²ÎÊı£¬ÔÚÈ·¶¨µÄÎ»ÖÃ»æ³öÈ·¶¨ÑÕÉ«µÄ·½¿é£¬xyrcÎªÈ·ÈÏÔÚºÎÎ»ÖÃ»­³ö¶àÉÙÊıÁ¿µÄ·½¿é£¬×Ö·û´®±äÁ¿ÔòÒÔÈ·¶¨ÑÕÉ«
+	ÊäÈë²ÎÊı£ºx, y, r, c, InnerColor, OuterColor
 */
 void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) {
     SetPenColor(InnerColor);
@@ -244,9 +257,9 @@ void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) 
 }
 
 /*
-	å‡½æ•°åï¼šDrawOutline
-	åŠŸèƒ½ï¼šç»˜åˆ¶å›¾å½¢çš„è½®å»“çº¿ï¼Œå¯å‚è€ƒDrawBlocksçš„æ³¨é‡Š
-	è¾“å…¥å‚æ•°ï¼šx, y, r, c, Color
+	º¯ÊıÃû£ºDrawOutline
+	¹¦ÄÜ£º»æÖÆÍ¼ĞÎµÄÂÖÀªÏß£¬¿É²Î¿¼DrawBlocksµÄ×¢ÊÍ
+	ÊäÈë²ÎÊı£ºx, y, r, c, Color
 */
 void DrawOutline(int x, int y, int r, int c, char *Color) {
     SetPenColor(Color);
@@ -259,9 +272,9 @@ void DrawOutline(int x, int y, int r, int c, char *Color) {
 }
 
 /*
-	å‡½æ•°åï¼šDrawLayers
-	åŠŸèƒ½ï¼šè¡Œåˆå§‹åŒ–åç»˜åˆ¶æ•´ä½“çš„æ ¼å­
-	è¾“å…¥å‚æ•°ï¼š
+	º¯ÊıÃû£ºDrawLayers
+	¹¦ÄÜ£ºĞĞ³õÊ¼»¯ºó»æÖÆÕûÌåµÄ¸ñ×Ó
+	ÊäÈë²ÎÊı£º
 */
 void DrawLayers(int head[12][22]) {
     if (!head[0][0]) {
@@ -277,8 +290,8 @@ void DrawLayers(int head[12][22]) {
 }
 
 /*
-	å‡½æ•°åï¼šDrawGameStart
-	å‡½æ•°åŠŸèƒ½ï¼šç»˜åˆ¶æ¸¸æˆçš„å¼€å§‹ç•Œé¢
+	º¯ÊıÃû£ºDrawGameStart
+	º¯Êı¹¦ÄÜ£º»æÖÆÓÎÏ·µÄ¿ªÊ¼½çÃæ
 	*/
 void DrawGameStart() {
     SetPenColor("Blue");
@@ -312,9 +325,9 @@ void DrawGameStart() {
 
 
 /*
-	å‡½æ•°åï¼šDrawGameOver
-	åŠŸèƒ½ï¼šå½“æ¸¸æˆç»“æŸæ—¶ï¼Œæç¤ºç©å®¶æ¸¸æˆç»“æŸå¹¶è¾“å…¥å§“åï¼Œå¹¶å¼¹å‡ºâ€œClick to Reteyâ€å­—æ ·æç¤ºç©å®¶å•å‡»å³å¯é‡æ–°è¿è¡Œæ¸¸æˆ
-	è¾“å…¥å‚æ•°ï¼š
+	º¯ÊıÃû£ºDrawGameOver
+	¹¦ÄÜ£ºµ±ÓÎÏ·½áÊøÊ±£¬ÌáÊ¾Íæ¼ÒÓÎÏ·½áÊø²¢ÊäÈëĞÕÃû£¬²¢µ¯³ö¡°Click to Retey¡±×ÖÑùÌáÊ¾Íæ¼Òµ¥»÷¼´¿ÉÖØĞÂÔËĞĞÓÎÏ·
+	ÊäÈë²ÎÊı£º
 */
 void DrawGameOver() {
     SetPenColor("Gray");
@@ -335,9 +348,9 @@ void DrawGameOver() {
 }
 
 /*
-	å‡½æ•°åï¼šDrawRankList
-	åŠŸèƒ½ï¼šç»˜åˆ¶æ’è¡Œæ¦œï¼Œå¹¶åœ¨å·¦è¾¹æ˜¾ç¤ºç©å®¶åå­—ï¼Œå³è¾¹æ˜¾ç¤ºç©å®¶å¾—åˆ†
-	è¾“å…¥å‚æ•°ï¼šæœ¬æ¬¡æ¸¸æˆçš„å¾—åˆ†currentNode->scoreåŠç©å®¶è¾“å…¥çš„åå­—currentNode->name
+	º¯ÊıÃû£ºDrawRankList
+	¹¦ÄÜ£º»æÖÆÅÅĞĞ°ñ£¬²¢ÔÚ×ó±ßÏÔÊ¾Íæ¼ÒÃû×Ö£¬ÓÒ±ßÏÔÊ¾Íæ¼ÒµÃ·Ö
+	ÊäÈë²ÎÊı£º±¾´ÎÓÎÏ·µÄµÃ·ÖcurrentNode->score¼°Íæ¼ÒÊäÈëµÄÃû×ÖcurrentNode->name
 */
 void DrawRankList() {
     char RankScoreText[10];
@@ -362,9 +375,9 @@ void DrawRankList() {
 }
 
 /*
-	å‡½æ•°åï¼šDrawGamePause
-	åŠŸèƒ½ï¼šå½“ç©å®¶æŒ‰ä¸‹ESCæ—¶ï¼Œå¼¹å‡ºé‡æ–°å¼€å§‹åŠé€€å‡ºä¸¤ä¸ªé€‰é¡¹
-	è¾“å…¥å‚æ•°ï¼š
+	º¯ÊıÃû£ºDrawGamePause
+	¹¦ÄÜ£ºµ±Íæ¼Ò°´ÏÂESCÊ±£¬µ¯³öÖØĞÂ¿ªÊ¼¼°ÍË³öÁ½¸öÑ¡Ïî
+	ÊäÈë²ÎÊı£º
 */
 void DrawGamePause() {
     SetDefaultStyle();
@@ -379,9 +392,9 @@ void DrawGamePause() {
 }
 
 /*
-	å‡½æ•°åï¼šSetDefaultStyle
-	åŠŸèƒ½ï¼šä¸ºæŒ‰é’®ä»¥åŠå†…ç½®æ–‡å­—çš„æ–¹å—è®¾ç½®åˆå§‹é¢œè‰²ï¼Œå¹¶é¢„ç½®å†…éƒ¨å¡«å……
-	è¾“å…¥å‚æ•°ï¼š
+	º¯ÊıÃû£ºSetDefaultStyle
+	¹¦ÄÜ£ºÎª°´Å¥ÒÔ¼°ÄÚÖÃÎÄ×ÖµÄ·½¿éÉèÖÃ³õÊ¼ÑÕÉ«£¬²¢Ô¤ÖÃÄÚ²¿Ìî³ä
+	ÊäÈë²ÎÊı£º
 */
 void SetDefaultStyle() {
     setMenuColors("Gray", "White", "Dark Gray", "Black", 1);
@@ -392,37 +405,43 @@ void SetDefaultStyle() {
 void DrawInitPage() {
     SetDefaultStyle();
     int Title[7][35] = {
-            {0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-            {0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
-            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-            {1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1},
+            {0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1},
     };
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 35; ++j) {
             if (Title[i][j]) {
                 SetPenColor(TetrominoColor[RandomInteger(1, 7)]);
-                drawRectangle(FrameLeftCorner.x + (8.5+j) * BlockLength/2, FrameLeftCorner.y + (32+i) * BlockLength/2, BlockLength/2,
-                              BlockLength/2, 1);
+                drawRectangle(FrameLeftCorner.x + (8.5 + j) * BlockLength / 2,
+                              FrameLeftCorner.y + (32 + i) * BlockLength / 2, BlockLength / 2,
+                              BlockLength / 2, 1);
             }
         }
     }
-    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
+    if (button(GenUIID(4), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "New Game")) {
         InitPage = 0;
         UpdateRank();
         NewRound();
     }
     if (CanContinue) {
-        if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 8 * BlockLength,
+        if (button(GenUIID(5), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 8 * BlockLength,
                    8 * BlockLength,
                    2 * BlockLength, "Continue")) {
             GameContinue();
         }
     }
-    if (button(GenUIID(1), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 5 * BlockLength, 8 * BlockLength,
+    if (button(GenUIID(6), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 5 * BlockLength, 8 * BlockLength,
+               2 * BlockLength, "Help")) {
+        ShowHelp = ShowHelp?0:1;
+        RefreshDisplay();
+    }
+    if (button(GenUIID(7), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 2 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Exit")) {
         GameExit(1);
     }
@@ -448,4 +467,38 @@ void DrawClearBlink(int Clear[], int n) {
         }
     }
     ResumeTimer();
+}
+
+void DrawAbout(){
+    SetPenColor("Light Gray");
+    drawRectangle(FrameLeftCorner.x+1.5*BlockLength,FrameLeftCorner.y+14.5*BlockLength,5*BlockLength,3*BlockLength,1);
+    SetPenColor("Black");
+    MovePen(FrameLeftCorner.x+3.5*BlockLength,FrameLeftCorner.y+17*BlockLength);
+    DrawTextString("About");
+    MovePen(FrameLeftCorner.x+2*BlockLength,FrameLeftCorner.y+16*BlockLength);
+    DrawTextString("Contributor:A,B,C");
+    MovePen(FrameLeftCorner.x+2*BlockLength,FrameLeftCorner.y+15*BlockLength);
+    DrawTextString("CopyRight:Grp-XX");
+}
+
+void DrawHelp(){
+    SetPenColor("Light Gray");
+    drawRectangle(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+11.5*BlockLength,5*BlockLength,6*BlockLength,1);
+    SetPenColor("Black");
+    MovePen(FrameLeftCorner.x+21.5*BlockLength,FrameLeftCorner.y+17*BlockLength);
+//    SetPointSize(5);
+//    SetStyle(Bold);
+    DrawTextString("Help");
+    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+16*BlockLength);
+//    SetPointSize(1);
+//    SetStyle(Normal);
+    DrawTextString("up arrow to spin");
+    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+15*BlockLength);
+    DrawTextString("left and right arrow to move");
+    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+14*BlockLength);
+    DrawTextString("down arrow to speed up fall");
+    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+13*BlockLength);
+    DrawTextString("space to  fall to the bottom");
+    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+12*BlockLength);
+    DrawTextString("x to hold tetromino");
 }
