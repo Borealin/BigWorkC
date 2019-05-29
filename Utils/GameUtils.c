@@ -138,11 +138,11 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_UP:
-                            current.direction = (current.direction + 1) % 4;
-                            if (!JudgeBorder(current, 1)) {
-                                current.direction = ((current.direction - 1) % 4 + 4) % 4;
-                            }
-                            RefreshDisplay();
+                        current.direction = (current.direction + 1) % 4;
+                        if (!JudgeBorder(current, 1)) {
+                            current.direction = ((current.direction - 1) % 4 + 4) % 4;
+                        }
+                        RefreshDisplay();
                         break;
                     default:
                         break;
@@ -235,17 +235,42 @@ void CharEventProcess(char ch) {
     if (InitPage) {
         return;
     }
+    if (ControlDown) {
+        switch (ch) {
+            case 'e':
+                GameExit(1);
+                break;
+            case 'E':
+                GameExit(1);
+                break;
+            case 's':
+                SaveGame();
+                break;
+            case 'S':
+                SaveGame();
+                break;
+            case 'n':
+                NewRound();
+                break;
+            case 'N':
+                NewRound();
+                break;
+            case 'x':
+                CanHold = CanHold ? 0 : 1;
+                RefreshDisplay();
+                break;
+            case 'X':
+                CanHold = CanHold ? 0 : 1;
+                RefreshDisplay();
+                break;
+        }
+    }
     if (IsStop) {
         RefreshDisplay();
         DrawGameOver();
     } else {
         switch (ch) {
             case 'x':
-                if (ControlDown) {
-                    CanHold = CanHold ? 0 : 1;
-                    RefreshDisplay();
-                    break;
-                }
                 if (CanHold) {
                     SwitchHold();
                 }
@@ -286,7 +311,7 @@ void RefreshDisplay() {
     if (IsPause) {
         DrawGamePause();
     }
-    if (!IsStop&&!IsPause) {
+    if (!IsStop && !IsPause) {
         DrawResult();
     }
     DrawTetromino(next);
