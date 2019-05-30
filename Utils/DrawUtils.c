@@ -420,7 +420,7 @@ void DrawInitPage() {
 }
 /*
 	函数名：DrawClearBlink
-	功能：使即将被清除满的行闪烁
+	功能：使即将被清除的满行闪烁
 	输入参数：Clear[],n
 */
 void DrawClearBlink(int Clear[], int n) {
