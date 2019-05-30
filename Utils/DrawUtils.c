@@ -144,7 +144,11 @@ void DrawFrame(double x, double y) {
     DrawRankList();
     DrawMenu();
 }
-
+/*
+	函数名：DrawMenu
+	功能：绘制游戏菜单
+	输入参数：
+*/
 void DrawMenu() {
     SetDefaultStyle();
     static char *menuListFile[] = {
@@ -401,7 +405,11 @@ void SetDefaultStyle() {
     setTextBoxColors("Gray", "White", "Dark Gray", "Black", 1);
     setButtonColors("Gray", "White", "Dark Gray", "Black", 1);
 }
-
+/*
+	函数名：DrawInitPage
+	功能：绘制游戏的初始界面
+	输入参数：
+*/
 void DrawInitPage() {
     SetDefaultStyle();
     int Title[7][35] = {
@@ -446,7 +454,11 @@ void DrawInitPage() {
         GameExit(1);
     }
 }
-
+/*
+	函数名：DrawClearBlink
+	功能：使即将被清除满的行闪烁
+	输入参数：Clear[],n
+*/
 void DrawClearBlink(int Clear[], int n) {
     PauseTimer();
     if (n) {
@@ -468,7 +480,11 @@ void DrawClearBlink(int Clear[], int n) {
     }
     ResumeTimer();
 }
-
+/*
+	函数名：DrawAbout
+	功能：绘制游戏菜单中的About栏
+	输入参数：
+*/
 void DrawAbout(){
     SetPenColor("Light Gray");
     drawRectangle(FrameLeftCorner.x+1.5*BlockLength,FrameLeftCorner.y+14.5*BlockLength,5*BlockLength,3*BlockLength,1);
@@ -480,7 +496,11 @@ void DrawAbout(){
     MovePen(FrameLeftCorner.x+2*BlockLength,FrameLeftCorner.y+15*BlockLength);
     DrawTextString("CopyRight:Grp-XX");
 }
-
+/*
+	函数名：DrawHelp
+	功能：绘制游戏菜单中的Help栏
+	输入参数：
+*/
 void DrawHelp(){
     SetPenColor("Light Gray");
     drawRectangle(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+11.5*BlockLength,5*BlockLength,6*BlockLength,1);
