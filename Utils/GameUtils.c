@@ -388,7 +388,9 @@ void UpdateRank() {
 
 /*
 	函数名：SwitchHold
-	功能：保持开关  （不懂
+	功能：实现游戏中的"Hold"功能，当“Hold”预览窗为空时，将"Next One"预览窗中的方块保留至“Hold”区域，
+    并刷新”Next One"预览窗；当”Hold“预览窗非空时，使"Hold"预览窗中的俄罗斯方块成为下一个下落的俄罗斯方块，
+    并清空“Hold”预览窗。
 	输入参数：
 */
 void SwitchHold() {
@@ -447,7 +449,7 @@ void GameResume() {
 /*
 	函数名：GameExit
 	功能：保存本次游戏内容并关闭游戏界面
-	输入参数：
+	输入参数：int save
 */
 void GameExit(int save) {
     if (save) {
@@ -455,22 +457,38 @@ void GameExit(int save) {
     }
     ExitGraphics();
 }
-
+/*
+	函数名：GameContinue
+	功能：继续之前被暂停的游戏
+	输入参数：
+*/
 void GameContinue() {
     InitPage = 0;
     RefreshDisplay();
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
-
+/*
+	函数名：PauseTimer
+	功能：使计时器NORMAL_DOWN和ACCELRATE暂停工作
+	输入参数：
+*/
 void PauseTimer() {
     cancelTimer(NORMAL_DOWN);
     cancelTimer(ACCELRATE_DOWN);
 }
-
+/*
+	函数名：ResumeTimer
+	功能：使计时器NORMAL_DOWN重新开始工作
+	输入参数：
+*/
 void ResumeTimer() {
     startTimer(NORMAL_DOWN, (int) DownSpeed);
 }
-
+/*
+	函数名：UpdateLevel
+	功能：计算并更新玩家当前的等级
+	输入参数：int count
+*/
 void UpdateLevel(int count) {
     AllClearedLayer += count;
     ClearedLayer += count;
@@ -478,7 +496,11 @@ void UpdateLevel(int count) {
     ClearedLayer = ClearedLayer % 10;
     ResetDownTimer();
 }
-
+/*
+	函数名：ResetDownTimer
+	功能：根据玩家当前的等级调整方块下落的速度并重置NORMAL_DOWN计时器
+	输入参数：
+*/
 void ResetDownTimer() {
     DownSpeed = LevelSpeed[Level];
     cancelTimer(NORMAL_DOWN);

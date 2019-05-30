@@ -6,7 +6,11 @@
 #include <string.h>
 #include <genlib.h>
 #include <GameUtils.h>
-
+/*
+   函数名称：SaveGame
+   调用变量：
+   函数功能：将游戏存档
+ */
 void SaveGame() {
     FILE *data;
     data = fopen("save.dat", "wb");
@@ -33,6 +37,11 @@ void SaveGame() {
     fclose(data);
 }
 
+/*
+   函数名称：RecoverGame
+   调用变量：
+   函数功能：读取先前的游戏存档
+ */
 int RecoverGame() {
     FILE *data;
     data = fopen("save.dat", "rb");
