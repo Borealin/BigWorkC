@@ -1,5 +1,5 @@
 //
-// Created by Borealin on 2019/5/9.
+// Created by B on 2019/5/9.
 //
 #include <graphics.h>
 #include <imgui.h>
@@ -65,6 +65,32 @@ int ShowAbout = 0;
 
 int ShowHelp = 0;
 
+char StatusBarBuff[100] = {0};
+
+char* MessageStr[30]={
+        "MOVE LEFT",
+        "MOVE RIGHT",
+        "SPIN",
+        "FALL",
+        "SPEED UP FALL",
+        "FALL TO BOTTOM",
+        "SWITCH HOLD",
+        "SAVE",
+        "LOAD",
+        "NEW GAME",
+        "CONTINUE",
+        "EXIT",
+        "PAUSE",
+        "RESUME",
+        "ABOUT",
+        "HELP",
+        "ENABLE HOLD",
+        "DISABLE HOLD",
+        "NEW ROUND",
+        "LEVEL UP",
+        "LEVEL DOWN",
+        "GAME OVER"
+};
 
 void GameOver();
 
@@ -92,6 +118,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                     break;
                 case VK_DOWN:
                     if (ControlDown) {
+                        LogStatusBar(LEVEL_DOWN);
                         Level = Level < 1 ? 0 : Level - 1;
                         ResetDownTimer();
                         RefreshDisplay();
@@ -99,6 +126,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                     break;
                 case VK_UP:
                     if (ControlDown) {
+                        LogStatusBar(LEVEL_UP);
                         Level = Level > 11 ? 12 : Level + 1;
                         ResetDownTimer();
                         RefreshDisplay();
@@ -110,6 +138,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
             if (!IsStop && !IsPause) {
                 switch (key) {
                     case VK_SPACE:
+                        LogStatusBar(FALL_TO_BOTTOM);
                         while (JudgeBorder(current, 3)) {
                             current.y--;
                         }
@@ -125,6 +154,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                     case VK_DOWN:
                         if (!ControlDown) {
                             if (!IsAccelerate) {
+                                LogStatusBar(SPEED_UP_FALL);
                                 IsAccelerate = 1;
                                 cancelTimer(NORMAL_DOWN);
                                 startTimer(ACCELRATE_DOWN, 50);
@@ -133,6 +163,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         }
                         break;
                     case VK_RIGHT:
+                        LogStatusBar(MOVE_RIGHT);
                         current.x++;
                         if (!JudgeBorder(current, 2)) {
                             current.x--;
@@ -140,6 +171,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_LEFT:
+                        LogStatusBar(MOVE_LEFT);
                         current.x--;
                         if (!JudgeBorder(current, 0)) {
                             current.x++;
@@ -147,6 +179,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                         RefreshDisplay();
                         break;
                     case VK_UP:
+                        LogStatusBar(SPIN);
                         if (!ControlDown) {
                             current.direction = (current.direction + 1) % 4;
                             if (!JudgeBorder(current, 1)) {
@@ -215,6 +248,8 @@ void TimerEventProcess(int timerID) {
             RefreshDisplay();
             DrawGameOver();
             break;
+        case NORMAL_DOWN:
+            LogStatusBar(FALL);
         default:
             current.y--;
             if (!JudgeBorder(current, 3)) {
@@ -278,6 +313,12 @@ void CharEventProcess(char ch) {
             }
             RefreshDisplay();
             break;
+        case 'X':
+            if (CanHold) {
+                SwitchHold();
+            }
+            RefreshDisplay();
+            break;
         default:
             break;
     }
@@ -304,6 +345,7 @@ void RefreshCurrent() {
 */
 void RefreshDisplay() {
     DisplayClear();
+    DrawStatusBar();
     if (!InitPage) {
         if (!IsPause && !IsStop) {
             DrawLayers(TetrominoMap);
@@ -339,6 +381,7 @@ void RefreshDisplay() {
 	输入参数：
 */
 void NewRound() {
+    LogStatusBar(NEW_ROUND);
     cancelTimer(STOPREFRESH);
     IsStop = 0;
     AllClearedLayer = 0;
@@ -394,6 +437,7 @@ void UpdateRank() {
 	输入参数：
 */
 void SwitchHold() {
+    LogStatusBar(SWITCH_HOLD);
     if (!hold.type) {
         hold.type = current.type;
         RefreshCurrent();
@@ -416,6 +460,7 @@ void SwitchHold() {
 	输入参数：
 */
 void GameOver() {
+    LogStatusBar(GAME_OVER);
     PauseTimer();
     IsStop = 1;
     RefreshDisplay();
@@ -429,6 +474,7 @@ void GameOver() {
 	输入参数：
 */
 void GamePause() {
+    LogStatusBar(PAUSE);
     PauseTimer();
     IsPause = 1;
     RefreshDisplay();
@@ -441,6 +487,7 @@ void GamePause() {
 	输入参数：
 */
 void GameResume() {
+    LogStatusBar(RESUME);
     startTimer(NORMAL_DOWN, (int) DownSpeed);
     IsPause = 0;
     RefreshDisplay();
@@ -452,6 +499,7 @@ void GameResume() {
 	输入参数：int save
 */
 void GameExit(int save) {
+    LogStatusBar(EXIT);
     if (save) {
         SaveGame();
     }
@@ -463,6 +511,7 @@ void GameExit(int save) {
 	输入参数：
 */
 void GameContinue() {
+    LogStatusBar(CONTINUE);
     InitPage = 0;
     RefreshDisplay();
     startTimer(NORMAL_DOWN, (int) DownSpeed);
@@ -507,4 +556,12 @@ void ResetDownTimer() {
     if (!IsStop && !IsPause) {
         startTimer(NORMAL_DOWN, (int) DownSpeed);
     }
+}
+/*
+	函数名：LogStatusBar
+	功能：更新下方状态栏消息
+	输入参数：
+*/
+void LogStatusBar(MessageTypes MessageType){
+    strcpy(StatusBarBuff,MessageStr[MessageType]);
 }

@@ -1,5 +1,5 @@
 //
-// Created by Borealin on 2019/5/7.
+// Created by B on 2019/5/7.
 //
 
 #ifndef BIGWORK_DRAWUTILS_H
@@ -42,5 +42,7 @@ void DrawClearBlink(int Clear[],int n);
 void DrawAbout();
 
 void DrawHelp();
+
+void DrawStatusBar();
 
 #endif //BIGWORK_DRAWUTILS_H

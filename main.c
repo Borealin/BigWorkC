@@ -10,7 +10,7 @@
 #include <SaveUtils.h>
 
 void Main() {
-    SetWindowSize(BlockLength * 26, BlockLength * 25);
+    SetWindowSize(BlockLength * 26, BlockLength * 26);
     InitGraphics();
     InitGUI() ;
     SetWindowTitle("Tetris");

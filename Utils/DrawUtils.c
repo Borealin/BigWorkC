@@ -1,5 +1,5 @@
 //
-// Created by Borealin on 2019/5/7.
+// Created by B on 2019/5/7.
 //
 #define _CRT_NONSTDC_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
@@ -81,6 +81,7 @@ void SetDefaultStyle();
 
 void DrawMenu();
 
+
 /*
 	函数名：DrawTetromino
 	功能：根据输入的X的参数，画出具体的下落的一种俄罗斯方块
@@ -117,7 +118,7 @@ void DrawTetrominoOutline(Tetromino x) {
 */
 void DrawFrame(double x, double y) {
     FrameLeftCorner.x = x;
-    FrameLeftCorner.y = y;
+    FrameLeftCorner.y = y + BlockLength;
     SetPenColor(DEFAULT_COLOR);
     DrawBlocks(0, 0, 26, 2, FRAME_COLOR, DEFAULT_COLOR);
     int column[] = {
@@ -129,21 +130,29 @@ void DrawFrame(double x, double y) {
     DrawBlocks(19, 2, 6, 4, FRAME_COLOR, DEFAULT_COLOR);
     DrawBlocks(0, 22, 26, 2, FRAME_COLOR, DEFAULT_COLOR);
     SetPenColor("Red");
-    drawBox(x + 1 * BlockLength, y + 20 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Score", 'M', "Red");
-    drawBox(x + 1 * BlockLength, y + 16 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Level", 'M', "Red");
-    drawBox(x + 1 * BlockLength, y + 12 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Rank List", 'M', "Red");
-    drawBox(x + 19 * BlockLength, y + 20 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Next One", 'M', "Red");
-    drawBox(x + 19 * BlockLength, y + 12 * BlockLength, BlockLength * 6, BlockLength * 2, 0, "Hold", 'M', "Red");
+    drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + 20 * BlockLength, BlockLength * 6, BlockLength * 2,
+            0, "Score", 'M', "Red");
+    drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + 16 * BlockLength, BlockLength * 6, BlockLength * 2,
+            0, "Level", 'M', "Red");
+    drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, BlockLength * 6, BlockLength * 2,
+            0, "Rank List", 'M', "Red");
+    drawBox(FrameLeftCorner.x + 19 * BlockLength, FrameLeftCorner.y + 20 * BlockLength, BlockLength * 6,
+            BlockLength * 2, 0, "Next One", 'M', "Red");
+    drawBox(FrameLeftCorner.x + 19 * BlockLength, FrameLeftCorner.y + 12 * BlockLength, BlockLength * 6,
+            BlockLength * 2, 0, "Hold", 'M', "Red");
     char *ScoreText = (char *) malloc(sizeof(char));
     char *LevelText = (char *) malloc(sizeof(char));
     itoa(Score, ScoreText, 10);
     itoa(Level, LevelText, 10);
     SetPenColor("Blue");
-    drawBox(x + 1 * BlockLength, y + 18 * BlockLength, BlockLength * 6, BlockLength * 2, 0, ScoreText, 'L', "Blue");
-    drawBox(x + 1 * BlockLength, y + 14 * BlockLength, BlockLength * 6, BlockLength * 2, 0, LevelText, 'L', "Blue");
+    drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + 18 * BlockLength, BlockLength * 6, BlockLength * 2,
+            0, ScoreText, 'L', "Blue");
+    drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + 14 * BlockLength, BlockLength * 6, BlockLength * 2,
+            0, LevelText, 'L', "Blue");
     DrawRankList();
     DrawMenu();
 }
+
 /*
 	函数名：DrawMenu
 	功能：绘制游戏菜单
@@ -191,16 +200,18 @@ void DrawMenu() {
                          sizeof(menuListTool) / sizeof(menuListTool[0]));
     switch (selection) {
         case 1:
-            CanHold = CanHold ? 0 : 1;
+            CanHold = CanHold ? (LogStatusBar(DISABLE_HOLD), 0) : (LogStatusBar(ENABLE_HOLD), 1);
             break;
         case 2:
             NewRound();
             break;
         case 3:
+            LogStatusBar(LEVEL_UP);
             Level = Level > 11 ? 12 : Level + 1;
             ResetDownTimer();
             break;
         case 4:
+            LogStatusBar(LEVEL_DOWN);
             Level = Level < 1 ? 0 : Level - 1;
             ResetDownTimer();
             break;
@@ -214,11 +225,13 @@ void DrawMenu() {
                          sizeof(menuListHelp) / sizeof(menuListHelp[0]));
     switch (selection) {
         case 1:
-            ShowHelp = ShowHelp?0:1;
+            LogStatusBar(HELP);
+            ShowHelp = ShowHelp ? 0 : 1;
             RefreshDisplay();
             break;
         case 2:
-            ShowAbout = ShowAbout?0:1;
+            LogStatusBar(ABOUT);
+            ShowAbout = ShowAbout ? 0 : 1;
             RefreshDisplay();
             break;
         default:
@@ -292,6 +305,7 @@ void DrawLayers(int head[12][22]) {
         }
     }
 }
+
 /*
 	函数名：DrawGameOver
 	功能：当游戏结束时，提示玩家游戏结束并输入姓名，并弹出“Click to Retey”字样提示玩家单击即可重新运行游戏
@@ -369,6 +383,7 @@ void SetDefaultStyle() {
     setTextBoxColors("Gray", "White", "Dark Gray", "Black", 1);
     setButtonColors("Gray", "White", "Dark Gray", "Black", 1);
 }
+
 /*
 	函数名：DrawInitPage
 	功能：绘制游戏的初始界面
@@ -397,6 +412,7 @@ void DrawInitPage() {
     }
     if (button(GenUIID(4), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 11 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "New Game")) {
+        LogStatusBar(NEW_GAME);
         InitPage = 0;
         UpdateRank();
         NewRound();
@@ -410,7 +426,8 @@ void DrawInitPage() {
     }
     if (button(GenUIID(6), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 5 * BlockLength, 8 * BlockLength,
                2 * BlockLength, "Help")) {
-        ShowHelp = ShowHelp?0:1;
+        LogStatusBar(HELP);
+        ShowHelp = ShowHelp ? 0 : 1;
         RefreshDisplay();
     }
     if (button(GenUIID(7), FrameLeftCorner.x + 9 * BlockLength, FrameLeftCorner.y + 2 * BlockLength, 8 * BlockLength,
@@ -418,6 +435,7 @@ void DrawInitPage() {
         GameExit(1);
     }
 }
+
 /*
 	函数名：DrawClearBlink
 	功能：使即将被清除的满行闪烁
@@ -444,45 +462,58 @@ void DrawClearBlink(int Clear[], int n) {
     }
     ResumeTimer();
 }
+
 /*
 	函数名：DrawAbout
 	功能：绘制游戏菜单中的About栏
 	输入参数：
 */
-void DrawAbout(){
+void DrawAbout() {
     SetPenColor("Light Gray");
-    drawRectangle(FrameLeftCorner.x+1.5*BlockLength,FrameLeftCorner.y+14.5*BlockLength,5*BlockLength,3*BlockLength,1);
+    drawRectangle(FrameLeftCorner.x + 1.5 * BlockLength, FrameLeftCorner.y + 14.5 * BlockLength, 5 * BlockLength,
+                  3 * BlockLength, 1);
     SetPenColor("Black");
-    MovePen(FrameLeftCorner.x+3.5*BlockLength,FrameLeftCorner.y+17*BlockLength);
+    MovePen(FrameLeftCorner.x + 3.5 * BlockLength, FrameLeftCorner.y + 17 * BlockLength);
     DrawTextString("About");
-    MovePen(FrameLeftCorner.x+2*BlockLength,FrameLeftCorner.y+16*BlockLength);
+    MovePen(FrameLeftCorner.x + 2 * BlockLength, FrameLeftCorner.y + 16 * BlockLength);
     DrawTextString("Contributor:A,B,C");
-    MovePen(FrameLeftCorner.x+2*BlockLength,FrameLeftCorner.y+15*BlockLength);
+    MovePen(FrameLeftCorner.x + 2 * BlockLength, FrameLeftCorner.y + 15 * BlockLength);
     DrawTextString("CopyRight:Grp-XX");
 }
+
 /*
 	函数名：DrawHelp
 	功能：绘制游戏菜单中的Help栏
 	输入参数：
 */
-void DrawHelp(){
+void DrawHelp() {
     SetPenColor("Light Gray");
-    drawRectangle(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+11.5*BlockLength,5*BlockLength,6*BlockLength,1);
+    drawRectangle(FrameLeftCorner.x + 19.5 * BlockLength, FrameLeftCorner.y + 11.5 * BlockLength, 5 * BlockLength,
+                  6 * BlockLength, 1);
     SetPenColor("Black");
-    MovePen(FrameLeftCorner.x+21.5*BlockLength,FrameLeftCorner.y+17*BlockLength);
+    MovePen(FrameLeftCorner.x + 21.5 * BlockLength, FrameLeftCorner.y + 17 * BlockLength);
 //    SetPointSize(5);
 //    SetStyle(Bold);
     DrawTextString("Help");
-    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+16*BlockLength);
+    MovePen(FrameLeftCorner.x + 19.5 * BlockLength, FrameLeftCorner.y + 16 * BlockLength);
 //    SetPointSize(1);
 //    SetStyle(Normal);
     DrawTextString("up arrow to spin");
-    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+15*BlockLength);
+    MovePen(FrameLeftCorner.x + 19.5 * BlockLength, FrameLeftCorner.y + 15 * BlockLength);
     DrawTextString("left and right arrow to move");
-    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+14*BlockLength);
+    MovePen(FrameLeftCorner.x + 19.5 * BlockLength, FrameLeftCorner.y + 14 * BlockLength);
     DrawTextString("down arrow to speed up fall");
-    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+13*BlockLength);
+    MovePen(FrameLeftCorner.x + 19.5 * BlockLength, FrameLeftCorner.y + 13 * BlockLength);
     DrawTextString("space to  fall to the bottom");
-    MovePen(FrameLeftCorner.x+19.5*BlockLength,FrameLeftCorner.y+12*BlockLength);
+    MovePen(FrameLeftCorner.x + 19.5 * BlockLength, FrameLeftCorner.y + 12 * BlockLength);
     DrawTextString("x to hold tetromino");
+}
+
+/*
+	函数名：DrawStatusBar
+	功能：绘制状态栏
+	输入参数：
+*/
+void DrawStatusBar() {
+    drawBox(0, 0, BlockLength * 26, BlockLength * 1, 0, StatusBarBuff, 'M', "Black");
 }

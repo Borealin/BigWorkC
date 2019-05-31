@@ -1,5 +1,5 @@
 //
-// Created by Borealin on 2019/5/14.
+// Created by B on 2019/5/14.
 //
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,6 +12,7 @@
    函数功能：将游戏存档
  */
 void SaveGame() {
+    LogStatusBar(SAVE);
     FILE *data;
     data = fopen("save.dat", "wb");
     fwrite(&current, sizeof(Tetromino), 1, data);
@@ -43,6 +44,7 @@ void SaveGame() {
    函数功能：读取先前的游戏存档
  */
 int RecoverGame() {
+    LogStatusBar(LOAD);
     FILE *data;
     data = fopen("save.dat", "rb");
     if (data == NULL) {
