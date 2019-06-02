@@ -183,5 +183,6 @@ void cancelTimerEvent();
 void startTimer(int id,int timeinterval);
 void cancelTimer(int id);
 
+void DisplayClear(void);
 
 #endif

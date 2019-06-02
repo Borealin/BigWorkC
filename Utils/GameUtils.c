@@ -53,8 +53,6 @@ int ControlDown = 0;
 
 void RefreshCurrent();
 
-void DisplayClear(void);
-
 void DrawResult();
 
 void SwitchHold();
