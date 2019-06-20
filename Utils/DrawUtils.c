@@ -475,9 +475,9 @@ void DrawAbout() {
     MovePen(FrameLeftCorner.x + 3.5 * BlockLength, FrameLeftCorner.y + 17 * BlockLength);
     DrawTextString("About");
     MovePen(FrameLeftCorner.x + 2 * BlockLength, FrameLeftCorner.y + 16 * BlockLength);
-    DrawTextString("Contributor:A,B,C");
+    DrawTextString("Contributor:XK,WYD,SCN");
     MovePen(FrameLeftCorner.x + 2 * BlockLength, FrameLeftCorner.y + 15 * BlockLength);
-    DrawTextString("CopyRight:Grp-XX");
+    DrawTextString("CopyRight:Grp-14");
 }
 
 /*

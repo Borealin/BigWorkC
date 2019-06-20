@@ -28,7 +28,7 @@ Folders=libgraphics,simpleGUI,Utils
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000000100000001000000
+CompilerSettings=00000000a0100000001000000
 UnitCount=33
 
 [VersionInfo]
