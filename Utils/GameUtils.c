@@ -162,7 +162,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                     case VK_RIGHT:
                         LogStatusBar(MOVE_RIGHT);
                         current.x++;
-                        if (JudgeBorder(current, 2)==3) {
+                        if (JudgeBorder(current, 2)==3||JudgeBorder(current, 2)==0) {
                             current.x--;
                         }
                         RefreshDisplay();
@@ -170,7 +170,7 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
                     case VK_LEFT:
                         LogStatusBar(MOVE_LEFT);
                         current.x--;
-                        if (JudgeBorder(current, 0)==2) {
+                        if (JudgeBorder(current, 0)==2||JudgeBorder(current, 0)==0) {
                             current.x++;
                         }
                         RefreshDisplay();
@@ -182,13 +182,13 @@ void KeyboardEventProcess(int key, int event)/* 每当产生键盘消息，都�
 //                            if (!JudgeBorder(current, 1)) {
 //                                current.direction = ((current.direction - 1) % 4 + 4) % 4;
 //                            }
-                            if (JudgeBorder(current, 1) == 2) {
+                            while (JudgeBorder(current, 1) == 2) {
                                 current.x++;
                             }
-                            if (JudgeBorder(current, 1) == 3) {
+                            while (JudgeBorder(current, 1) == 3) {
                                 current.x--;
                             }
-                            while (JudgeBorder(current, 1) != 1) {
+                            while (JudgeBorder(current, 1) == 0) {
                                 current.y++;
                             }
                             RefreshDisplay();
@@ -337,7 +337,7 @@ void CharEventProcess(char ch) {
 */
 void RefreshCurrent() {
     current.x = 12;
-    current.y = 20;
+    current.y = 21;
     current.direction = 0;
     current.type = next.type;
     next.type = randuint(1, 7);
@@ -452,7 +452,7 @@ void SwitchHold() {
             int tmp = current.type;
             current.type = hold.type;
             current.x = 12;
-            current.y = 20;
+            current.y = 21;
             current.direction = 0;
             hold.type = tmp;
             HaveSwitch = 1;

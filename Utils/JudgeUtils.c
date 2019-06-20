@@ -24,7 +24,6 @@ void LayerInit() {
     }
     for (int i = 0; i < 12; i++) {
         TetrominoMap[i][0] = 1;
-        TetrominoMap[i][21] = 1;
     }
     for (int i = 1; i < 21; i++) {
         TetrominoMap[0][i] = 1;
