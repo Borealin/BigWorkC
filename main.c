@@ -4,7 +4,6 @@
 #include "DrawUtils.h"
 #include <extgraph.h>
 #include <windows.h>
-#include <random.h>
 #include <JudgeUtils.h>
 #include <GameUtils.h>
 #include <SaveUtils.h>
@@ -14,7 +13,10 @@ void Main() {
     InitGraphics();
     InitGUI() ;
     SetWindowTitle("Tetris");
-    Randomize();
+//    Randomize();
+    unsigned long init[4]={0x123, 0x234, 0x345, 0x456}, length=4;
+    init_by_array(init, length);
+    InitColor();
     registerKeyboardEvent(KeyboardEventProcess);
     registerMouseEvent(MouseEventProcess);
     registerTimerEvent(TimerEventProcess);
