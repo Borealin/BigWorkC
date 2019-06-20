@@ -45,4 +45,5 @@ void DrawHelp();
 
 void DrawStatusBar();
 
+void InitColor();
 #endif //BIGWORK_DRAWUTILS_H

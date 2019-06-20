@@ -83,9 +83,9 @@ void DrawMenu();
 
 
 /*
-	º¯ÊıÃû£ºDrawTetromino
-	¹¦ÄÜ£º¸ù¾İÊäÈëµÄXµÄ²ÎÊı£¬»­³ö¾ßÌåµÄÏÂÂäµÄÒ»ÖÖ¶íÂŞË¹·½¿é
-	ÊäÈë²ÎÊı£ºÃûÎªXµÄTerominoÀàĞÍµÄ½á¹¹Ìå
+	å‡½æ•°åï¼šDrawTetromino
+	åŠŸèƒ½ï¼šæ ¹æ®è¾“å…¥çš„Xçš„å‚æ•°ï¼Œç”»å‡ºå…·ä½“çš„ä¸‹è½çš„ä¸€ç§ä¿„ç½—æ–¯æ–¹å—
+	è¾“å…¥å‚æ•°ï¼šåä¸ºXçš„Terominoç±»å‹çš„ç»“æ„ä½“
 */
 void DrawTetromino(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
@@ -98,9 +98,9 @@ void DrawTetromino(Tetromino x) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawTetrominoOutline
-	¹¦ÄÜ£º
-	ÊäÈë²ÎÊı£ºÃûÎªXµÄTerominoÀàĞÍµÄ½á¹¹Ìå
+	å‡½æ•°åï¼šDrawTetrominoOutline
+	åŠŸèƒ½ï¼š
+	è¾“å…¥å‚æ•°ï¼šåä¸ºXçš„Terominoç±»å‹çš„ç»“æ„ä½“
 */
 void DrawTetrominoOutline(Tetromino x) {
     int dir = x.direction % TetrominoDirectionMod[x.type];
@@ -112,9 +112,9 @@ void DrawTetrominoOutline(Tetromino x) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawFrame
-	¹¦ÄÜ£ºÒÔÊäÈëµÄ£¨x,y)È·ÈÏĞÂµÄ×ø±êÔ­µãÒÔ»æÖÆÓÎÏ·µÄÕûÌå¿ò¼Ü   £¨x,y)Ä¬ÈÏÎª£¨0£¬0£©
-	ÊäÈë²ÎÊı£ºx,y
+	å‡½æ•°åï¼šDrawFrame
+	åŠŸèƒ½ï¼šä»¥è¾“å…¥çš„ï¼ˆx,y)ç¡®è®¤æ–°çš„åæ ‡åŸç‚¹ä»¥ç»˜åˆ¶æ¸¸æˆçš„æ•´ä½“æ¡†æ¶   ï¼ˆx,y)é»˜è®¤ä¸ºï¼ˆ0ï¼Œ0ï¼‰
+	è¾“å…¥å‚æ•°ï¼šx,y
 */
 void DrawFrame(double x, double y) {
     FrameLeftCorner.x = x;
@@ -154,9 +154,9 @@ void DrawFrame(double x, double y) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawMenu
-	¹¦ÄÜ£º»æÖÆÓÎÏ·²Ëµ¥
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawMenu
+	åŠŸèƒ½ï¼šç»˜åˆ¶æ¸¸æˆèœå•
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawMenu() {
     SetDefaultStyle();
@@ -178,12 +178,12 @@ void DrawMenu() {
 
     double x = FrameLeftCorner.x;
     double y = FrameLeftCorner.y + 25 * BlockLength;
-    double h = BlockLength; // ¿Ø¼ş¸ß¶È
-    double w = BlockLength * 26 / 3; // ¿Ø¼ş¿í¶È
+    double h = BlockLength; // æ§ä»¶é«˜åº¦
+    double w = BlockLength * 26 / 3; // æ§ä»¶å®½åº¦
     double wlist = BlockLength * 26 / 3;
     int selection;
 
-    // File ²Ëµ¥
+    // File èœå•
     selection = menuList(GenUIID(0), x, y - h, w, wlist, h, menuListFile,
                          sizeof(menuListFile) / sizeof(menuListFile[0]));
     if (selection == 1) {
@@ -193,7 +193,7 @@ void DrawMenu() {
         GameExit(1);
     }
 
-    // Tool ²Ëµ¥
+    // Tool èœå•
     menuListTool[1] = CanHold ? "Disable Hold | Ctrl-X" : "Enable Hold | Ctrl-X";
     menuListTool[5] = IsPause ? "Resume | Esc" : "Pause | Esc";
     selection = menuList(GenUIID(0), x + w, y - h, w, wlist, h, menuListTool,
@@ -240,9 +240,9 @@ void DrawMenu() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawBlocks
-	¹¦ÄÜ£º¸ù¾İÊäÈë²ÎÊı£¬ÔÚÈ·¶¨µÄÎ»ÖÃ»æ³öÈ·¶¨ÑÕÉ«µÄ·½¿é£¬xyrcÎªÈ·ÈÏÔÚºÎÎ»ÖÃ»­³ö¶àÉÙÊıÁ¿µÄ·½¿é£¬×Ö·û´®±äÁ¿ÔòÒÔÈ·¶¨ÑÕÉ«
-	ÊäÈë²ÎÊı£ºx, y, r, c, InnerColor, OuterColor
+	å‡½æ•°åï¼šDrawBlocks
+	åŠŸèƒ½ï¼šæ ¹æ®è¾“å…¥å‚æ•°ï¼Œåœ¨ç¡®å®šçš„ä½ç½®ç»˜å‡ºç¡®å®šé¢œè‰²çš„æ–¹å—ï¼Œxyrcä¸ºç¡®è®¤åœ¨ä½•ä½ç½®ç”»å‡ºå¤šå°‘æ•°é‡çš„æ–¹å—ï¼Œå­—ç¬¦ä¸²å˜é‡åˆ™ä»¥ç¡®å®šé¢œè‰²
+	è¾“å…¥å‚æ•°ï¼šx, y, r, c, InnerColor, OuterColor
 */
 void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) {
     SetPenColor(InnerColor);
@@ -274,9 +274,9 @@ void DrawBlocks(int x, int y, int r, int c, char *InnerColor, char *OuterColor) 
 }
 
 /*
-	º¯ÊıÃû£ºDrawOutline
-	¹¦ÄÜ£º»æÖÆÍ¼ĞÎµÄÂÖÀªÏß£¬¿É²Î¿¼DrawBlocksµÄ×¢ÊÍ
-	ÊäÈë²ÎÊı£ºx, y, r, c, Color
+	å‡½æ•°åï¼šDrawOutline
+	åŠŸèƒ½ï¼šç»˜åˆ¶å›¾å½¢çš„è½®å»“çº¿ï¼Œå¯å‚è€ƒDrawBlocksçš„æ³¨é‡Š
+	è¾“å…¥å‚æ•°ï¼šx, y, r, c, Color
 */
 void DrawOutline(int x, int y, int r, int c, char *Color) {
     SetPenColor(Color);
@@ -289,9 +289,9 @@ void DrawOutline(int x, int y, int r, int c, char *Color) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawLayers
-	¹¦ÄÜ£ºĞĞ³õÊ¼»¯ºó»æÖÆÕûÌåµÄ¸ñ×Ó
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawLayers
+	åŠŸèƒ½ï¼šè¡Œåˆå§‹åŒ–åç»˜åˆ¶æ•´ä½“çš„æ ¼å­
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawLayers(int head[12][22]) {
     if (!head[0][0]) {
@@ -307,9 +307,9 @@ void DrawLayers(int head[12][22]) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawGameOver
-	¹¦ÄÜ£ºµ±ÓÎÏ·½áÊøÊ±£¬ÌáÊ¾Íæ¼ÒÓÎÏ·½áÊø²¢ÊäÈëĞÕÃû£¬²¢µ¯³ö¡°Click to Retey¡±×ÖÑùÌáÊ¾Íæ¼Òµ¥»÷¼´¿ÉÖØĞÂÔËĞĞÓÎÏ·
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawGameOver
+	åŠŸèƒ½ï¼šå½“æ¸¸æˆç»“æŸæ—¶ï¼Œæç¤ºç©å®¶æ¸¸æˆç»“æŸå¹¶è¾“å…¥å§“åï¼Œå¹¶å¼¹å‡ºâ€œClick to Reteyâ€å­—æ ·æç¤ºç©å®¶å•å‡»å³å¯é‡æ–°è¿è¡Œæ¸¸æˆ
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawGameOver() {
     SetPenColor("Gray");
@@ -330,9 +330,9 @@ void DrawGameOver() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawRankList
-	¹¦ÄÜ£º»æÖÆÅÅĞĞ°ñ£¬²¢ÔÚ×ó±ßÏÔÊ¾Íæ¼ÒÃû×Ö£¬ÓÒ±ßÏÔÊ¾Íæ¼ÒµÃ·Ö
-	ÊäÈë²ÎÊı£º±¾´ÎÓÎÏ·µÄµÃ·ÖcurrentNode->score¼°Íæ¼ÒÊäÈëµÄÃû×ÖcurrentNode->name
+	å‡½æ•°åï¼šDrawRankList
+	åŠŸèƒ½ï¼šç»˜åˆ¶æ’è¡Œæ¦œï¼Œå¹¶åœ¨å·¦è¾¹æ˜¾ç¤ºç©å®¶åå­—ï¼Œå³è¾¹æ˜¾ç¤ºç©å®¶å¾—åˆ†
+	è¾“å…¥å‚æ•°ï¼šæœ¬æ¬¡æ¸¸æˆçš„å¾—åˆ†currentNode->scoreåŠç©å®¶è¾“å…¥çš„åå­—currentNode->name
 */
 void DrawRankList() {
     char RankScoreText[10];
@@ -349,17 +349,17 @@ void DrawRankList() {
         itoa(currentNode->score, RankScoreText, 10);
         SetPenColor("Orange");
         drawBox(FrameLeftCorner.x + 1 * BlockLength, FrameLeftCorner.y + (12 - i) * BlockLength, BlockLength * 3,
-                BlockLength * 1, 0, currentNode->name, 'L', "Magenta");
+                BlockLength * 1, 0, currentNode->name, 'L', "Red");
         drawBox(FrameLeftCorner.x + 4 * BlockLength, FrameLeftCorner.y + (12 - i) * BlockLength, BlockLength * 3,
-                BlockLength * 1, 0, RankScoreText, 'R', "Magenta");
+                BlockLength * 1, 0, RankScoreText, 'R', "Red");
         currentNode = currentNode->next;
     }
 }
 
 /*
-	º¯ÊıÃû£ºDrawGamePause
-	¹¦ÄÜ£ºµ±Íæ¼Ò°´ÏÂESCÊ±£¬µ¯³öÖØĞÂ¿ªÊ¼¼°ÍË³öÁ½¸öÑ¡Ïî
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawGamePause
+	åŠŸèƒ½ï¼šå½“ç©å®¶æŒ‰ä¸‹ESCæ—¶ï¼Œå¼¹å‡ºé‡æ–°å¼€å§‹åŠé€€å‡ºä¸¤ä¸ªé€‰é¡¹
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawGamePause() {
     SetDefaultStyle();
@@ -374,9 +374,9 @@ void DrawGamePause() {
 }
 
 /*
-	º¯ÊıÃû£ºSetDefaultStyle
-	¹¦ÄÜ£ºÎª°´Å¥ÒÔ¼°ÄÚÖÃÎÄ×ÖµÄ·½¿éÉèÖÃ³õÊ¼ÑÕÉ«£¬²¢Ô¤ÖÃÄÚ²¿Ìî³ä
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šSetDefaultStyle
+	åŠŸèƒ½ï¼šä¸ºæŒ‰é’®ä»¥åŠå†…ç½®æ–‡å­—çš„æ–¹å—è®¾ç½®åˆå§‹é¢œè‰²ï¼Œå¹¶é¢„ç½®å†…éƒ¨å¡«å……
+	è¾“å…¥å‚æ•°ï¼š
 */
 void SetDefaultStyle() {
     setMenuColors("Gray", "White", "Dark Gray", "Black", 1);
@@ -385,9 +385,9 @@ void SetDefaultStyle() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawInitPage
-	¹¦ÄÜ£º»æÖÆÓÎÏ·µÄ³õÊ¼½çÃæ
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawInitPage
+	åŠŸèƒ½ï¼šç»˜åˆ¶æ¸¸æˆçš„åˆå§‹ç•Œé¢
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawInitPage() {
     SetDefaultStyle();
@@ -403,7 +403,7 @@ void DrawInitPage() {
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 35; ++j) {
             if (Title[i][j]) {
-                SetPenColor(TetrominoColor[RandomInteger(1, 7)]);
+                SetPenColor(TetrominoColor[randuint(1, 7)]);
                 drawRectangle(FrameLeftCorner.x + (8.5 + j) * BlockLength / 2,
                               FrameLeftCorner.y + (32 + i) * BlockLength / 2, BlockLength / 2,
                               BlockLength / 2, 1);
@@ -437,9 +437,9 @@ void DrawInitPage() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawClearBlink
-	¹¦ÄÜ£ºÊ¹¼´½«±»Çå³ıµÄÂúĞĞÉÁË¸
-	ÊäÈë²ÎÊı£ºClear[],n
+	å‡½æ•°åï¼šDrawClearBlink
+	åŠŸèƒ½ï¼šä½¿å³å°†è¢«æ¸…é™¤çš„æ»¡è¡Œé—ªçƒ
+	è¾“å…¥å‚æ•°ï¼šClear[],n
 */
 void DrawClearBlink(int Clear[], int n) {
     PauseTimer();
@@ -464,9 +464,9 @@ void DrawClearBlink(int Clear[], int n) {
 }
 
 /*
-	º¯ÊıÃû£ºDrawAbout
-	¹¦ÄÜ£º»æÖÆÓÎÏ·²Ëµ¥ÖĞµÄAboutÀ¸
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawAbout
+	åŠŸèƒ½ï¼šç»˜åˆ¶æ¸¸æˆèœå•ä¸­çš„Aboutæ 
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawAbout() {
     SetPenColor("Light Gray");
@@ -482,9 +482,9 @@ void DrawAbout() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawHelp
-	¹¦ÄÜ£º»æÖÆÓÎÏ·²Ëµ¥ÖĞµÄHelpÀ¸
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawHelp
+	åŠŸèƒ½ï¼šç»˜åˆ¶æ¸¸æˆèœå•ä¸­çš„Helpæ 
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawHelp() {
     SetPenColor("Light Gray");
@@ -510,10 +510,20 @@ void DrawHelp() {
 }
 
 /*
-	º¯ÊıÃû£ºDrawStatusBar
-	¹¦ÄÜ£º»æÖÆ×´Ì¬À¸
-	ÊäÈë²ÎÊı£º
+	å‡½æ•°åï¼šDrawStatusBar
+	åŠŸèƒ½ï¼šç»˜åˆ¶çŠ¶æ€æ 
+	è¾“å…¥å‚æ•°ï¼š
 */
 void DrawStatusBar() {
     drawBox(0, 0, BlockLength * 26, BlockLength * 1, 0, StatusBarBuff, 'M', "Black");
+}
+
+void InitColor() {
+    DefineColor("Yellow",1,0.694,0.106);
+    DefineColor("Cyan",0.199,0.648,0.719);
+    DefineColor("Green",0.102,0.574,0.430);
+    DefineColor("Red",0.813,0.352,0.430);
+    DefineColor("Violet",0.594,0.426,0.695);
+    DefineColor("Blue",0.316,0.656,0.863);
+    DefineColor("Orange",0.926,0.469,0.289);
 }

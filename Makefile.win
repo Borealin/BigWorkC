@@ -4,14 +4,14 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o Utils/DrawUtils.o Utils/GameUtils.o Utils/JudgeUtils.o Utils/ListUtils.o Utils/SaveUtils.o libgraphics/exceptio.o libgraphics/genlib.o libgraphics/graphics.o libgraphics/random.o libgraphics/simpio.o libgraphics/strlib.o simpleGUI/imgui.o
-LINKOBJ  = main.o Utils/DrawUtils.o Utils/GameUtils.o Utils/JudgeUtils.o Utils/ListUtils.o Utils/SaveUtils.o libgraphics/exceptio.o libgraphics/genlib.o libgraphics/graphics.o libgraphics/random.o libgraphics/simpio.o libgraphics/strlib.o simpleGUI/imgui.o
+OBJ      = main.o Utils/DrawUtils.o Utils/GameUtils.o Utils/JudgeUtils.o Utils/ListUtils.o Utils/SaveUtils.o libgraphics/genlib.o libgraphics/graphics.o libgraphics/random.o libgraphics/simpio.o libgraphics/strlib.o simpleGUI/imgui.o libgraphics/exception.o
+LINKOBJ  = main.o Utils/DrawUtils.o Utils/GameUtils.o Utils/JudgeUtils.o Utils/ListUtils.o Utils/SaveUtils.o libgraphics/genlib.o libgraphics/graphics.o libgraphics/random.o libgraphics/simpio.o libgraphics/strlib.o simpleGUI/imgui.o libgraphics/exception.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"Utils" -I"simpleGUI" -I"libgraphics"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"Utils" -I"simpleGUI" -I"libgraphics"
 BIN      = Tetris.exe
-CXXFLAGS = $(CXXINCS) -Wall -g3
-CFLAGS   = $(INCS) -Wall -g3
+CXXFLAGS = $(CXXINCS) -std=c99 -Wall -g3
+CFLAGS   = $(INCS) -std=c99 -Wall -g3
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -42,9 +42,6 @@ Utils/ListUtils.o: Utils/ListUtils.c
 Utils/SaveUtils.o: Utils/SaveUtils.c
 	$(CC) -c Utils/SaveUtils.c -o Utils/SaveUtils.o $(CFLAGS)
 
-libgraphics/exceptio.o: libgraphics/exceptio.c
-	$(CC) -c libgraphics/exceptio.c -o libgraphics/exceptio.o $(CFLAGS)
-
 libgraphics/genlib.o: libgraphics/genlib.c
 	$(CC) -c libgraphics/genlib.c -o libgraphics/genlib.o $(CFLAGS)
 
@@ -62,3 +59,6 @@ libgraphics/strlib.o: libgraphics/strlib.c
 
 simpleGUI/imgui.o: simpleGUI/imgui.c
 	$(CC) -c simpleGUI/imgui.c -o simpleGUI/imgui.o $(CFLAGS)
+
+libgraphics/exception.o: libgraphics/exception.c
+	$(CC) -c libgraphics/exception.c -o libgraphics/exception.o $(CFLAGS)
