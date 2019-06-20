@@ -56,8 +56,11 @@ int JudgeBorder(Tetromino x, int FallDirection) {//0:nothing been blocked 1:down
     for (int i = 0; i < 4; ++i) {
         int tx = x.x + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][0] - X_CORNER;
         int ty = x.y + Direction[(TetrominoShape[x.type][i] + 4 * dir) % 16][1] - Y_CORNER;
-        if (tx <= 0 || tx >= 11) {
-            return 0;
+        if (tx <= 0) {
+            return 2;
+        }
+        if(tx >= 11) {
+            return 3;
         }
         if (TetrominoMap[tx][ty]) {
             if (FallDirection == 3) {

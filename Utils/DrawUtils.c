@@ -15,7 +15,6 @@
 #include "extgraph.h"
 #include "SaveUtils.h"
 #include <GameUtils.h>
-#include <random.h>
 
 #define DEFAULT_COLOR "White"
 #define FRAME_COLOR "Light Gray"
